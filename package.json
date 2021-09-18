@@ -1,0 +1,29 @@
+{
+  "name": "alkemy-challenge-node",
+  "version": "1.0.0",
+  "description": "Repositorio de mi solución para el challenge de ingreso de Alkemy (backend NodeJs): API Mundo de Disney.",
+  "main": "bussiness-logic.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aa-avila/alkemy-challenge-node-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aa-avila/alkemy-challenge-node-js/issues"
+  },
+  "homepage": "https://github.com/aa-avila/alkemy-challenge-node-js#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12"
+  }
+}
