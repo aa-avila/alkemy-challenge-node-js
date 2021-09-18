@@ -1,5 +1,5 @@
-/** Base de datos:  disney_world*/
-
+/** Nombre de la base de datos:  disney_world*/
+//
 /********************************************** */
 /******** MODELOS BD *********/
 
