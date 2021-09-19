@@ -1,10 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 
-//const characterRoutes = require('./routes/characterRoutes');
-//const movieRoutes = require('./routes/movieRoutes');
-//const genreRoutes = require('./routes/genreRoutes');
-//const authRoutes = require('./routes/authRoutes');
+const characterRoutes = require('./routes/characterRoutes');
+const movieRoutes = require('./routes/movieRoutes');
+const genreRoutes = require('./routes/genreRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 
 /*********************/
@@ -27,10 +27,10 @@ app.get('/', (req, res) => {
     res.send('Hola!');
 });
 
-//app.use('/', characterRoutes);
-//app.use('/', movieRoutes);
-//app.use('/', genreRoutes);
-//app.use('/', authRoutes);
+app.use('/', characterRoutes);
+app.use('/', movieRoutes);
+app.use('/', genreRoutes);
+app.use('/', authRoutes);
 
 
 /*********************/

@@ -11,3 +11,87 @@
 //
 // DELETE /character/:id => elimina personaje
 // .... (idea): no permite eliminar character si hay movies asociados a ésta
+
+
+const CharacterSvc = require('../services/characterService');
+
+const getAll = async (req, res) => {
+    try {
+        const response = {};
+
+
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({ 'Error': error.message });
+        console.log(error.message);
+    }
+}
+
+const getOne = async (req, res) => {
+    try {
+        const response = {};
+
+
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({ 'Error': error.message });
+        console.log(error.message);
+    }
+}
+
+const create = async (req, res) => {
+    try {
+        const response = {};
+
+
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({ 'Error': error.message });
+        console.log(error.message);
+    }
+}
+
+const update = async (req, res) => {
+    try {
+        const response = {};
+
+
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({ 'Error': error.message });
+        console.log(error.message);
+    }
+}
+
+const deleteOne = async (req, res) => {
+    try {
+        const response = {};
+
+
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({ 'Error': error.message });
+        console.log(error.message);
+    }
+}
+
+const deleteAll = async (req, res) => {
+    try {
+        const response = {};
+
+
+        res.send(response);
+    } catch (error) {
+        res.status(500).send({ 'Error': error.message });
+        console.log(error.message);
+    }
+}
+
+module.exports = {
+    getAll,
+    getOne,
+    create,
+    update,
+    deleteOne,
+    deleteAll
+}

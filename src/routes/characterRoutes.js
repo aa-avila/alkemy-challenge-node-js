@@ -1,13 +1,11 @@
-/** CHARACTERS */
-//
-// GET /characters => devuelve listado de personajes (id, image, name)
-// .... busqueda por name y filtro por age, weight, movies(by idMovie)
-//
-// GET /characters/:id => detalle del personaje + movies relacionadas
-//
-// POST /characters => crea nuevo personaje
-//
-// PUT /characters/:id => actualiza personaje
-//
-// DELETE /character/:id => elimina personaje
-// .... (idea): no permite eliminar character si hay movies asociados a ésta
+const router = require('express').Router();
+const CharacterCtrl = require('../controllers/characterController');
+
+router.get('/genres', CharacterCtrl.getAll);
+router.get('/genres/:id', CharacterCtrl.getOne);
+router.post('/genres', CharacterCtrl.create);
+router.put('/genres/:id', CharacterCtrl.update);
+router.delete('/genres/:id', CharacterCtrl.deleteOne);
+router.delete('/genres', CharacterCtrl.deleteAll);
+
+module.exports = router;

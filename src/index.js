@@ -14,15 +14,16 @@ app.listen(PORT, async () => {
     await sequelize.authenticate();
     console.log('Conexion exitosa a la base de datos!');
 
-    // Sincronizar modelos con tablas
-    await sequelize.sync({ alter: true }); // {alter: true} => modifica las tablas para emparejar con los campos
-    // NOTA: si la tabla no existe la crea, si existe per faltan campos los crea, si sobran campos los destruye => NO se recomineda usar en Produccion!
+    // Sincronizar modelos con tablas:
+    /*
+    //await sequelize.sync({ alter: true }); // {alter: true} => modifica las tablas para emparejar con los campos
+    //
+    // NOTA: si la tabla no existe la crea, si existe pero faltan campos los crea, si sobran campos los destruye => NO se recomineda usar en Produccion!
     // para no hacer nada => { force: false }
-
-    console.log("Todos los modelos fueron sincronizados exitosamente.");
+    console.log("Todos los modelos fueron sincronizados correctamente.");
+    */
 
   } catch (error) {
     console.error('No se puede conectar a la base de datos:', error);
   }
-
 });

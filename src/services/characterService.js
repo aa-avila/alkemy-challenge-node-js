@@ -11,3 +11,75 @@
 //
 // DELETE /character/:id => elimina personaje
 // .... (idea): no permite eliminar character si hay movies asociados a ésta
+
+
+const Character = require('../models/characterModel');
+
+const getAll = async (queryOpt) => {
+    try {
+        const response = {};
+
+        return response;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+const getOne = async (id) => {
+    try {
+        const response = {};
+
+        return response;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+const create = async (data) => {
+    try {
+        const response = {};
+
+        return response;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+const update = async (data) => {
+    try {
+        const response = {};
+
+        return response;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+const deleteOne = async (id) => {
+    try {
+        const response = {};
+
+        return response;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+const deleteAll = async () => {
+    try {
+        const response = {};
+
+        return response;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+module.exports = {
+    getAll,
+    getOne,
+    create,
+    update,
+    deleteOne,
+    deleteAll
+}

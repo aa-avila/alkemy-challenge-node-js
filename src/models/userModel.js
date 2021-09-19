@@ -1,0 +1,37 @@
+/** USUARIOS => user (tabla: users)
+ * ID => id
+ * email => email
+ * password => password (encriptada)
+ * Fecha de creacion => createdAt
+ * Fecha de actualizacion => updatedAt
+*/
+
+/*********************************************************** */
+/** Extendiendo Model (class) */
+
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../database/db');
+
+class User extends Model { }
+
+User.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}, {
+    sequelize,
+    modelName: 'user' // => sequelize convierte a plural el modelo para sincronizar con tabla SQL
+});
+
+module.exports = User;
+

@@ -39,10 +39,18 @@
  * Fecha de actualizacion => updatedAt
 */
 
+/** USUARIOS => user (tabla: users)
+ * ID => id
+ * email => email
+ * password => password (encriptada)
+ * Fecha de creacion => createdAt
+ * Fecha de actualizacion => updatedAt
+*/
+
 
 
 /********************************************** */
-/******** ENDOPINTS *********/
+/******** ENDPOINTS *********/
 
 /** AUTH */
 //

@@ -4,8 +4,42 @@
  * Titulo => title
  * Calificacion => rating (1-5)
  * Personajes asociados => characters
- * Fecha de creacion => createdAt
- * (extra):
+ * Fecha de creacion => createdAt (autogenerado por sequelize)
+ * (extra - autogenerado por sequelize):
  * Fecha de actualizacion => updatedAt
  * 
 */
+
+/*********************************************************** */
+/** Extendiendo Model (class) */
+
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../database/db');
+
+class Movie extends Model { }
+
+Movie.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    image: {
+        type: DataTypes.STRING,
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    rating: {
+        type: DataTypes.INTEGER,
+    },
+    characters: {
+        type: DataTypes.STRING, // array to string sep por ','
+    }
+}, {
+    sequelize,
+    modelName: 'movie' // => sequelize convierte a plural el modelo para sincronizar con tabla SQL
+});
+
+module.exports = Movie;
