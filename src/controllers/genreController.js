@@ -17,7 +17,7 @@ const GenreSvc = require('../services/genreService');
 
 const getAll = async (req, res, next) => {
     try {
-        const response = {};
+        const response = await GenreSvc.getAll();
 
         res.send(response);
     } catch (error) {

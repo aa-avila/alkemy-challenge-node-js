@@ -17,9 +17,20 @@ const Genre = require('../models/genreModel');
 
 const getAll = async () => {
     try {
-        const response = {};
+        const response = await Genre.findAll();
 
-        return response;
+        let genres = [];
+
+        response.forEach(element => {
+            const obj = {
+                id: element.id,
+                image: element.image,
+                name: element.name
+            };
+            genres.push(obj);
+        });
+
+        return genres;
     } catch (error) {
         throw error;
     }
