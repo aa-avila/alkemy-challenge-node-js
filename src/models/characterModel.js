@@ -30,7 +30,10 @@ Character.init({
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     age: {
         type: DataTypes.INTEGER,
@@ -40,9 +43,6 @@ Character.init({
     },
     story: {
         type: DataTypes.STRING,
-    },
-    movies: {
-        type: DataTypes.STRING, // array to string sep por ','
     }
 }, {
     sequelize,

@@ -14,23 +14,39 @@
 
 
 const Genre = require('../models/genreModel');
+const Movie = require('../models/movieModel');
+
 
 const getAll = async () => {
     try {
-        const response = await Genre.findAll();
 
-        let genres = [];
-
-        response.forEach(element => {
-            const obj = {
-                id: element.id,
-                image: element.image,
-                name: element.name
-            };
-            genres.push(obj);
+        const response = await Genre.findAll({
+            include: [Movie],
+            attributes: {
+                exclude: ['createdAt', 'updatedAt'],
+            }
         });
 
-        return genres;
+        return response;
+        
+
+
+        //const response = await Genre.findAll();
+
+        // let genres = [];
+
+        // response.forEach(element => {
+        //     const obj = {
+        //         id: element.id,
+        //         image: element.image,
+        //         name: element.name
+        //     };
+        //     genres.push(obj);
+        // });
+
+        // return genres;
+
+
     } catch (error) {
         throw error;
     }
@@ -50,17 +66,17 @@ const create = async (data) => {
     try {
         const { name, image, movies } = data;
 
-        if (name == null || name == '') {
-            const error = new Error('Faltan datos. Nombre (name) es requerido.');
-            error.status = 400;
-            throw error;
-        }
+        // if (name == null || name == '') {
+        //     const error = new Error('Faltan datos. Nombre (name) es requerido.');
+        //     error.status = 400;
+        //     throw error;
+        // }
 
-        if (name == 3) {
-            const error = new Error('El nombre no puede ser un numero 3');
-            error.status = 400;
-            throw error;
-        }
+        // if (name == 3) {
+        //     const error = new Error('El nombre no puede ser un numero 3');
+        //     error.status = 400;
+        //     throw error;
+        // }
 
         const response = await Genre.create({ name: name, image: image, movies: movies });
 
