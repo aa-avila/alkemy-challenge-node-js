@@ -21,7 +21,7 @@ const getAll = async () => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -31,17 +31,31 @@ const getOne = async (id) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
 const create = async (data) => {
     try {
-        const response = {};
+        const { name, image, movies } = data;
+
+        if (name == null || name == '') {
+            const error = new Error('Faltan datos. Nombre (name) es requerido.');
+            error.status = 400;
+            throw error;
+        }
+
+        if (name == 3) {
+            const error = new Error('El nombre no puede ser un numero 3');
+            error.status = 400;
+            throw error;
+        }
+
+        const response = await Genre.create({ name: name, image: image, movies: movies });
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -51,7 +65,7 @@ const update = async (data) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -61,7 +75,7 @@ const deleteOne = async (id) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -71,7 +85,7 @@ const deleteAll = async () => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 

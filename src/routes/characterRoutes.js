@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const CharacterCtrl = require('../controllers/characterController');
 
-router.get('/genres', CharacterCtrl.getAll);
-router.get('/genres/:id', CharacterCtrl.getOne);
-router.post('/genres', CharacterCtrl.create);
-router.put('/genres/:id', CharacterCtrl.update);
-router.delete('/genres/:id', CharacterCtrl.deleteOne);
-router.delete('/genres', CharacterCtrl.deleteAll);
+router.get('/characters', CharacterCtrl.getAll);
+router.get('/characters/:id', CharacterCtrl.getOne);
+router.post('/characters', CharacterCtrl.create);
+router.put('/characters/:id', CharacterCtrl.update);
+router.delete('/characters/:id', CharacterCtrl.deleteOne);
+router.delete('/characters', CharacterCtrl.deleteAll);
 
 module.exports = router;

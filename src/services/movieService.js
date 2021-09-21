@@ -22,7 +22,7 @@ const getAll = async (queryOpt) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -32,7 +32,7 @@ const getOne = async (id) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -42,7 +42,7 @@ const create = async (data) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -52,7 +52,7 @@ const update = async (data) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -62,7 +62,7 @@ const deleteOne = async (id) => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
@@ -72,7 +72,7 @@ const deleteAll = async () => {
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 

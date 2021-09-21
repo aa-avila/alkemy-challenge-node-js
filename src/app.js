@@ -32,6 +32,21 @@ app.use('/', movieRoutes);
 app.use('/', genreRoutes);
 app.use('/', authRoutes);
 
+/*********************/
+// ERROR HANDLING
+// Error 404
+app.use((req, res, next) => {
+    const error = new Error("El recurso solicitado no existe.");
+    error.status = 404;
+    next(error);
+});
+
+// Error handler
+app.use((error, req, res, next) => {
+    res.status(error.status || 500).send({ 'Error': error.message || 'Internal Server Error.' });
+    console.log(error.message);
+});
+
 
 /*********************/
 module.exports = app;

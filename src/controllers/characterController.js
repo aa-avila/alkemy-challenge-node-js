@@ -15,75 +15,68 @@
 
 const CharacterSvc = require('../services/characterService');
 
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
     try {
         const response = {};
 
-
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
-const getOne = async (req, res) => {
+const getOne = async (req, res, next) => {
     try {
         const response = {};
 
 
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
     try {
         const response = {};
 
 
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
     try {
         const response = {};
 
 
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
-const deleteOne = async (req, res) => {
+const deleteOne = async (req, res, next) => {
     try {
         const response = {};
 
 
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
-const deleteAll = async (req, res) => {
+const deleteAll = async (req, res, next) => {
     try {
         const response = {};
 
 
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
