@@ -18,7 +18,7 @@ const MovieSvc = require('../services/movieService');
 
 const getAll = async (req, res, next) => {
     try {
-        const response = {};
+        const response = await MovieSvc.getAll();
 
         res.send(response);
     } catch (error) {
@@ -39,7 +39,8 @@ const getOne = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        const response = {};
+        const data = req.body;
+        const response = await MovieSvc.create(data);
 
 
         res.send(response);

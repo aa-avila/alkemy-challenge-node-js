@@ -18,7 +18,11 @@ const Movie = require('../models/movieModel');
 
 const getAll = async (queryOpt) => {
     try {
-        const response = {};
+        const response = await Movie.findAll({
+            attributes: {
+                exclude: ['updatedAt'],
+            }
+        });
 
         return response;
     } catch (error) {
@@ -38,7 +42,9 @@ const getOne = async (id) => {
 
 const create = async (data) => {
     try {
-        const response = {};
+        const { title, image, rating, genre_id } = data;
+
+        const response = await Movie.create({ title: title, image: image, rating: rating, genre_id });
 
         return response;
     } catch (error) {
