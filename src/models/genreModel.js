@@ -23,21 +23,24 @@ Genre.init({
         primaryKey: true
     },
     image: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
-    },
-    movies: {
-        type: DataTypes.STRING, // array to string sep por ','
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     }
 }, {
     sequelize,
     modelName: 'genre' // => sequelize convierte a plural el modelo para sincronizar con tabla SQL
 });
 
+
 module.exports = Genre;
+
+
 
 
 /*********************************************************** */
@@ -60,9 +63,6 @@ const Genre = sequelize.define('user', {
     name: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    movies: {
-        type: DataTypes.INTEGER,
     }
 }, {
     // Other model options go here

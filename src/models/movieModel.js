@@ -25,17 +25,17 @@ Movie.init({
         primaryKey: true
     },
     image: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
     },
     title: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     rating: {
         type: DataTypes.INTEGER,
-    },
-    characters: {
-        type: DataTypes.STRING, // array to string sep por ','
     }
 }, {
     sequelize,
