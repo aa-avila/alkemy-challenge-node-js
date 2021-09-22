@@ -16,9 +16,80 @@
 
 const Movie = require('../models/movieModel');
 
-const getAll = async (queryOpt) => {
+const getAll = async (order) => {
     try {
+        let response = {};
+
+        if (!order) {
+            response = await Movie.findAll({
+                attributes: {
+                    exclude: ['updatedAt'],
+                }
+            });
+        } else {
+            // TODO: verificar parametro ORDER
+            // si no es asc o desc => throw err
+            // (toUpperCase y luego verif)
+
+            response = await Movie.findAll({
+                attributes: {
+                    exclude: ['updatedAt'],
+                },
+                order: [
+                    ['createdAt', order]
+                ]
+            });
+        }
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const filterByGenre = async (genre_id, order) => {
+    try {
+        let response = {};
+
+        if (!order) {
+            response = await Movie.findAll({
+                where: {
+                    genre_id: genre_id
+                },
+                attributes: {
+                    exclude: ['updatedAt'],
+                }
+            });
+        } else {
+            // TODO: verificar parametro ORDER
+            // si no es asc o desc => throw err
+            // (toUpperCase y luego verif)
+
+            response = await Movie.findAll({
+                where: {
+                    genre_id: genre_id
+                },
+                attributes: {
+                    exclude: ['updatedAt'],
+                },
+                order: [
+                    ['createdAt', order]
+                ]
+            });
+        }
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const searchByTitle = async (title) => {
+    try {
+
         const response = await Movie.findAll({
+            where: {
+                title: title
+            },
             attributes: {
                 exclude: ['updatedAt'],
             }
@@ -29,6 +100,7 @@ const getAll = async (queryOpt) => {
         throw error;
     }
 }
+
 
 const getOne = async (id) => {
     try {
@@ -84,6 +156,8 @@ const deleteAll = async () => {
 
 module.exports = {
     getAll,
+    filterByGenre,
+    searchByTitle,
     getOne,
     create,
     update,

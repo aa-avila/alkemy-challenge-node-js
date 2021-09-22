@@ -1,7 +1,7 @@
 /** MOVIES */
 //
 // GET /movies => devuelve listado de movies (id, image, title, createdAt)
-// .... busqueda por title y filtro por genre(idGenre)
+// .... busqueda por title y filtro por genre(genre_id)
 // .... orden ASC | DESC (createdAt)
 //
 // GET /movies/:id => detalle de pelicula + characters asociados
@@ -18,7 +18,21 @@ const MovieSvc = require('../services/movieService');
 
 const getAll = async (req, res, next) => {
     try {
-        const response = await MovieSvc.getAll();
+        const { title, genre_id, order } = req.query;
+        let response = {};
+
+        if (!title && !genre_id) {
+            response = await MovieSvc.getAll(order);
+        }
+
+        if (genre_id) {
+            response = await MovieSvc.filterByGenre(genre_id, order);
+        }
+
+        if (title) {
+            response = await MovieSvc.searchByTitle(title);
+        }
+
 
         res.send(response);
     } catch (error) {
