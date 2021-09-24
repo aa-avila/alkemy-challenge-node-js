@@ -25,9 +25,6 @@ Character.init({
         autoIncrement: true,
         primaryKey: true
     },
-    image: {
-        type: DataTypes.STRING,
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -42,6 +39,9 @@ Character.init({
         type: DataTypes.INTEGER,
     },
     story: {
+        type: DataTypes.STRING,
+    },
+    image: {
         type: DataTypes.STRING,
     }
 }, {

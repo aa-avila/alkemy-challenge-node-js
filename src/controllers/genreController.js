@@ -68,7 +68,7 @@ const deleteOne = async (req, res, next) => {
         
         const response = await GenreSvc.deleteOne(id);
 
-        res.send(response);
+        res.send({ "Message": `El genero ${id} se elimino correctamente.`});
     } catch (error) {
         next(error);
     }
@@ -76,10 +76,9 @@ const deleteOne = async (req, res, next) => {
 
 const deleteAll = async (req, res, next) => {
     try {
-        const response = {};
+        const response = await GenreSvc.deleteAll();
 
-
-        res.send(response);
+        res.send({ "Message": `Se eliminaron ${response} generos en total.`});
     } catch (error) {
         next(error);
     }

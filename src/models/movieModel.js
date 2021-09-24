@@ -24,9 +24,6 @@ Movie.init({
         autoIncrement: true,
         primaryKey: true
     },
-    image: {
-        type: DataTypes.STRING
-    },
     title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -36,6 +33,9 @@ Movie.init({
     },
     rating: {
         type: DataTypes.INTEGER,
+    },
+    image: {
+        type: DataTypes.STRING
     }
 }, {
     sequelize,

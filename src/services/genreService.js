@@ -15,7 +15,7 @@
 
 const Genre = require('../models/genreModel');
 const Movie = require('../models/movieModel');
-
+const { Op } = require("sequelize");
 
 const getAll = async () => {
     try {
@@ -60,10 +60,24 @@ const getOne = async (id) => {
 
 const create = async (data) => {
     try {
-        // TODO: comments
-        const { name, image} = data;
+        const name = data.name.toUpperCase();
+        const image = data.image;
 
-        const response = await Genre.create({ name: name, image: image});
+        // Verificar si existe otro nombre igual
+        const genre = await Genre.findOne({
+            where: {
+                name: name
+            }
+        });
+
+        if (genre != null) {
+            const error = new Error(`El genero ${name} ya existe.`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no existe previamente, insertar el nuevo genero en la tabla
+        const response = await Genre.create({ name: name, image: image });
 
         return response;
     } catch (error) {
@@ -73,7 +87,8 @@ const create = async (data) => {
 
 const update = async (id, data) => {
     try {
-        const { name, image } = data;
+        const name = data.name.toUpperCase();
+        const image = data.image;
 
         // Verificar si existe el genero antes de hacer el update
         // si no existe, arroja error:
@@ -86,7 +101,7 @@ const update = async (id, data) => {
         }
 
         // Actualiza BD
-        const response = await Genre.update({ name: name, image: image }, {
+        await Genre.update({ name: name, image: image }, {
             where: {
                 id: id
             }
@@ -112,27 +127,37 @@ const update = async (id, data) => {
 
 const deleteOne = async (id) => {
     try {
-        // TODO: verificar si hay movies relacionados al genero que se quiere borrar
-        // si hay relacionados, arrojar error
+        // Verificar si existen movies relacionadas al genero que se quiere borrar
+        const relatedMovies = await Movie.findAll({
+            where: {
+                genre_id: id
+            }
+        })
 
-        // Eliminar genero
+        // Si hay relacionadas, no permite borrar y genera error
+        if (relatedMovies.length != 0) {
+            const error = new Error('No se pueden eliminar los generos ya que existen peliculas o series asociados.');
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay movies relacionadas, se procede a eliminar la entrada
         const response = await Genre.destroy({
             where: {
                 id: id
             }
         });
 
-        // si la query arroja "0" => dicho registro no existe. Error.
+        // Si la query arroja "0" => dicho registro no existe. Error.
         if (response == 0) {
             const error = new Error(`No se encuentra el genero ${id}.`);
             error.status = 404;
             throw error;
         }
 
-        // respuesta afirmativa
-        if (response == 1) {
-            return ('OK');
-        }
+        // Respuesta afirmativa 1
+        return response;
+
     } catch (error) {
         throw error;
     }
@@ -140,15 +165,35 @@ const deleteOne = async (id) => {
 
 const deleteAll = async () => {
     try {
-        // TODO: terminar deleteAll\
-        // verificar si existen movies relacionadas
-        // si hay relaciones, no permite borrar
-        
+        // Verificar si existen movies relacionadas
+        const relatedMovies = await Movie.findAll({
+            where: {
+                genre_id: {
+                    [Op.not]: null
+                }
+            }
+        })
+
+        // Si hay relacionadas, no se permite borrar y genera error
+        if (relatedMovies.length != 0) {
+            const error = new Error('No se pueden eliminar los generos ya que existen peliculas o series asociados.');
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay movies relacionadas, se procede a borrar todas las entradas
         const response = await Genre.destroy({
-            truncate: true
+            where: {
+                id: {
+                    [Op.gt]: 0
+                }
+            }
         });
 
+        // Retorna la cantidad de filas eliminadas
         return response;
+
+
     } catch (error) {
         throw error;
     }

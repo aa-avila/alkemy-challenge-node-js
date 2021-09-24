@@ -6,6 +6,7 @@ const Character = require('../models/characterModel');
 const dbAssoc = () => {
 
     // Asociacion "One To Many"
+    // Sequelize genera una columna "genre_id" en "movies"
     Genre.hasMany(Movie, {
         foreignKey: 'genre_id'
     });

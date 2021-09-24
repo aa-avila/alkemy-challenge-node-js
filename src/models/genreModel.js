@@ -22,15 +22,16 @@ Genre.init({
         autoIncrement: true,
         primaryKey: true
     },
-    image: {
-        type: DataTypes.STRING
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
             notEmpty: true
         }
+    },
+    image: {
+        type: DataTypes.STRING
     }
 }, {
     sequelize,
