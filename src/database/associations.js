@@ -18,26 +18,15 @@ const dbAssoc = () => {
     // Asociacion "Many To Many"
     Movie.belongsToMany(Character, {
         through: "movie_character",
-        as: "characters",
+        // as: "characters",
         foreignKey: "movie_id",
     });
 
     Character.belongsToMany(Movie, {
         through: "movie_character",
-        as: "movies",
+        // as: "movies",
         foreignKey: "character_id",
     });
-
-
-
-
-    //Metodo simple por default:
-    //
-    // Genre.hasMany(Movie);
-    // Movie.belongsTo(Genre);
-    //
-    // Movie.belongsToMany(Character, { through: 'movie_character' });
-    // Character.belongsToMany(Movie, { through: 'movie_character' });
 }
 
 module.exports = dbAssoc;

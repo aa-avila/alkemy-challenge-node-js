@@ -15,6 +15,8 @@
 
 
 const Movie = require('../models/movieModel');
+const Character = require('../models/characterModel');
+
 
 const getAll = async (order) => {
     try {
@@ -90,6 +92,7 @@ const searchByTitle = async (title) => {
             where: {
                 title: title
             },
+            include: [Character],
             attributes: {
                 exclude: ['updatedAt'],
             }
@@ -104,7 +107,18 @@ const searchByTitle = async (title) => {
 
 const getOne = async (id) => {
     try {
-        const response = {};
+        const response = await Movie.findOne({
+            where: {
+                id: id
+            },
+            include: [Character]
+        });
+
+        if (response === null) {
+            const error = new Error(`No se encuentra la pelicula o serie ${id}.` );
+            error.status = 404;
+            throw error;
+        }
 
         return response;
     } catch (error) {

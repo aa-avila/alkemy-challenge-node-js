@@ -42,7 +42,9 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+
+        const response = await MovieSvc.getOne(id);
 
 
         res.send(response);

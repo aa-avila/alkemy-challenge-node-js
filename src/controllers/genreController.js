@@ -27,7 +27,8 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+        const response = await GenreSvc.getOne(id);
 
 
         res.send(response);
@@ -50,8 +51,10 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+        const data = req.body;
 
+        const response =  await GenreSvc.update(id, data);
 
         res.send(response);
     } catch (error) {
@@ -61,8 +64,9 @@ const update = async (req, res, next) => {
 
 const deleteOne = async (req, res, next) => {
     try {
-        const response = {};
-
+        const id = req.params.id;
+        
+        const response = await GenreSvc.deleteOne(id);
 
         res.send(response);
     } catch (error) {
