@@ -30,3 +30,19 @@ const dbAssoc = () => {
 }
 
 module.exports = dbAssoc;
+
+
+
+// DATITA PARA MOVIE - CHARACTER:
+//
+// const Foo = sequelize.define('Foo', { name: DataTypes.TEXT });
+// const Bar = sequelize.define('Bar', { name: DataTypes.TEXT });
+// Foo.belongsToMany(Bar, { through: 'Foo_Bar' });
+// Bar.belongsToMany(Foo, { through: 'Foo_Bar' });
+
+// await sequelize.sync();
+// const foo = await Foo.create({ name: 'foo' });
+// const bar = await Bar.create({ name: 'bar' });
+// await foo.addBar(bar);
+// const fetchedFoo = Foo.findOne({ include: Bar });
+// console.log(JSON.stringify(fetchedFoo, null, 2));

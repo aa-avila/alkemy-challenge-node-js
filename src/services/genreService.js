@@ -19,6 +19,7 @@ const Movie = require('../models/movieModel');
 
 const getAll = async () => {
     try {
+        // Traer todos los registros, excluir campos createdAt y UpdatedAt
         const response = await Genre.findAll({
             attributes: {
                 exclude: ['createdAt', 'updatedAt'],
@@ -33,6 +34,7 @@ const getAll = async () => {
 
 const getOne = async (id) => {
     try {
+        // Trae el registro cuyo id coincida con el de la solicitud
         const response = await Genre.findOne({
             where: {
                 id: id
@@ -43,6 +45,7 @@ const getOne = async (id) => {
             }
         });
 
+        // Arroja error en caso de que no se encuentre dicho id
         if (response === null) {
             const error = new Error(`No se encuentra el genero ${id}.`);
             error.status = 404;
@@ -57,9 +60,10 @@ const getOne = async (id) => {
 
 const create = async (data) => {
     try {
-        const { name, image, movies } = data;
+        // TODO: comments
+        const { name, image} = data;
 
-        const response = await Genre.create({ name: name, image: image, movies: movies });
+        const response = await Genre.create({ name: name, image: image});
 
         return response;
     } catch (error) {
@@ -71,25 +75,24 @@ const update = async (id, data) => {
     try {
         const { name, image } = data;
 
-        // TODO: verificar si existe el genero antes de hace la query
+        // Verificar si existe el genero antes de hacer el update
         // si no existe, arroja error:
-        //const error = new Error(`El genero ${id} no existe.` );
-        //error.status = 404;
-        //throw error;
+        const genreToUpdate = await Genre.findByPk(id);
 
+        if (!genreToUpdate) {
+            const error = new Error(`El genero ${id} no existe.`);
+            error.status = 404;
+            throw error;
+        }
+
+        // Actualiza BD
         const response = await Genre.update({ name: name, image: image }, {
             where: {
                 id: id
             }
         });
 
-        // console.log(response);
-
-        // if (response == 0) {
-        //     return ({'Message': 'No se modificaron datos.'})
-        // }
-
-
+        // Traemos la entrada actuallizada y la enviamos como respuesta
         const genre = await Genre.findOne({
             where: {
                 id: id
@@ -101,6 +104,7 @@ const update = async (id, data) => {
         });
 
         return (genre);
+
     } catch (error) {
         throw error;
     }
@@ -108,18 +112,24 @@ const update = async (id, data) => {
 
 const deleteOne = async (id) => {
     try {
+        // TODO: verificar si hay movies relacionados al genero que se quiere borrar
+        // si hay relacionados, arrojar error
+
+        // Eliminar genero
         const response = await Genre.destroy({
             where: {
                 id: id
             }
         });
 
+        // si la query arroja "0" => dicho registro no existe. Error.
         if (response == 0) {
             const error = new Error(`No se encuentra el genero ${id}.`);
             error.status = 404;
             throw error;
         }
 
+        // respuesta afirmativa
         if (response == 1) {
             return ('OK');
         }
@@ -130,7 +140,13 @@ const deleteOne = async (id) => {
 
 const deleteAll = async () => {
     try {
-        const response = {};
+        // TODO: terminar deleteAll\
+        // verificar si existen movies relacionadas
+        // si hay relaciones, no permite borrar
+        
+        const response = await Genre.destroy({
+            truncate: true
+        });
 
         return response;
     } catch (error) {
