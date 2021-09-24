@@ -2,7 +2,7 @@
 //
 // GET /movies => devuelve listado de movies (id, image, title, createdAt)
 // .... busqueda por title y filtro por genre(genre_id)
-// .... orden ASC | DESC (createdAt)
+// .... orden ASC | DESC (releaseDate)
 //
 // GET /movies/:id => detalle de pelicula + characters asociados
 //

@@ -27,7 +27,10 @@ Genre.init({
         allowNull: false,
         unique: true,
         validate: {
-            notEmpty: true
+            // notEmpty: true
+            notEmpty: {
+                msg: 'No se proporcionó nombre (name), o  sólo contiene espacios.'
+            }
         }
     },
     image: {

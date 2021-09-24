@@ -18,12 +18,13 @@
 
 /** PELICULA O SERIE => movie (tabla: movies)
  * ID => id
- * Imagen (url) => image
  * Titulo => title
  * Calificacion => rating (1-5)
+ * Fecha de lanzamiento => releaseDate
+ * Imagen (url) => image
  * Personajes asociados => characters
- * Fecha de creacion => createdAt
  * (extra):
+ * Fecha de creacion => createdAt
  * Fecha de actualizacion => updatedAt
  * 
 */
@@ -77,7 +78,7 @@
 //
 // GET /movies => devuelve listado de movies (id, image, title, createdAt)
 // .... busqueda por title y filtro por genre(idGenre)
-// .... orden ASC | DESC (createdAt)
+// .... orden ASC | DESC (releaseDate)
 //
 // GET /movies/:id => detalle de pelicula + characters asociados
 //

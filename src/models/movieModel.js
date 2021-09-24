@@ -28,11 +28,22 @@ Movie.init({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true
+            // notEmpty: true
+            notEmpty: {
+                msg: 'No se proporcionó Título (title), o  sólo contiene espacios.'
+            }
         }
     },
     rating: {
         type: DataTypes.INTEGER,
+        validate: {
+            min: 1,
+            max: 5
+        }
+    },
+    releaseDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
     },
     image: {
         type: DataTypes.STRING
