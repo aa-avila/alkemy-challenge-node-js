@@ -40,9 +40,9 @@ const getOne = async (id) => {
                 id: id
             },
             include: [Movie],
-            attributes: {
-                exclude: ['createdAt', 'updatedAt'],
-            }
+            // attributes: {
+            //     exclude: ['createdAt', 'updatedAt'],
+            // }
         });
 
         // Arroja error en caso de que no se encuentre dicho id
@@ -70,6 +70,7 @@ const create = async (data) => {
             }
         });
 
+        // Si ya existe dicho genero, devuelve error
         if (genre != null) {
             const error = new Error(`El genero ${name} ya existe.`);
             error.status = 409;
@@ -113,9 +114,9 @@ const update = async (id, data) => {
                 id: id
             },
             include: [Movie],
-            attributes: {
-                exclude: ['createdAt', 'updatedAt'],
-            }
+            // attributes: {
+            //     exclude: ['createdAt', 'updatedAt'],
+            // }
         });
 
         return (genre);

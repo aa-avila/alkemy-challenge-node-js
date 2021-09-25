@@ -27,6 +27,7 @@ Movie.init({
     title: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
             // notEmpty: true
             notEmpty: {
@@ -42,7 +43,7 @@ Movie.init({
         }
     },
     releaseDate: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATEONLY, // formato de fecha => AAAA-MM-DD
         allowNull: false,
     },
     image: {

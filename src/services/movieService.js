@@ -16,29 +16,41 @@
 
 const Movie = require('../models/movieModel');
 const Character = require('../models/characterModel');
+const { Op } = require("sequelize");
 
 
 const getAll = async (order) => {
     try {
         let response = {};
 
+        // En caso de no proporcionar parametro ORDER
         if (!order) {
             response = await Movie.findAll({
                 attributes: {
-                    exclude: ['updatedAt'],
+                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
                 }
             });
-        } else {
-            // TODO: verificar parametro ORDER
-            // si no es asc o desc => throw err
-            // (toUpperCase y luego verif)
+        }
 
+        // Si se proporciona parametro ORDER
+        if (order) {
+            // Verificar parametro ORDER
+            // si no es asc o desc => throw err
+            const order_uc = order.toUpperCase();
+
+            if (order_uc != 'ASC' && order_uc != 'DESC') {
+                const error = new Error('El parametro ORDER solo admite los valores ASC y DESC.');
+                error.status = 400;
+                throw error;
+            }
+
+            // Si la query es correcta, envia respuesta con las movies en el orden especificado 
             response = await Movie.findAll({
                 attributes: {
-                    exclude: ['updatedAt'],
+                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
                 },
                 order: [
-                    ['createdAt', order]
+                    ['releaseDate', order]
                 ]
             });
         }
@@ -53,32 +65,44 @@ const filterByGenre = async (genre_id, order) => {
     try {
         let response = {};
 
+        // En caso de no proporcionar parametro ORDER
         if (!order) {
             response = await Movie.findAll({
                 where: {
                     genre_id: genre_id
                 },
                 attributes: {
-                    exclude: ['updatedAt'],
+                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
                 }
             });
-        } else {
-            // TODO: verificar parametro ORDER
-            // si no es asc o desc => throw err
-            // (toUpperCase y luego verif)
+        }
 
+        // Si se proporciona parametro ORDER
+        if (order) {
+            // Verificar parametro ORDER
+            // si no es asc o desc => throw err
+            const order_uc = order.toUpperCase();
+
+            if (order_uc != 'ASC' && order_uc != 'DESC') {
+                const error = new Error('El parametro ORDER solo admite los valores ASC y DESC.');
+                error.status = 400;
+                throw error;
+            }
+
+            // Si la query es correcta, envia respuesta con las movies en el orden especificado 
             response = await Movie.findAll({
                 where: {
                     genre_id: genre_id
                 },
                 attributes: {
-                    exclude: ['updatedAt'],
+                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
                 },
                 order: [
                     ['createdAt', order]
                 ]
             });
         }
+
         return response;
     } catch (error) {
         throw error;
@@ -87,14 +111,16 @@ const filterByGenre = async (genre_id, order) => {
 
 const searchByTitle = async (title) => {
     try {
-
+        // Buscamos todas las entradas que contengan "title" en la columna correspondiente
         const response = await Movie.findAll({
             where: {
-                title: title
+                title: {
+                    [Op.substring]: title // permite que el titulo proporcionado no este completo, es decir, que sea una subcadena
+                }
             },
             include: [Character],
             attributes: {
-                exclude: ['updatedAt'],
+                exclude: ['createdAt', 'updatedAt'],
             }
         });
 
@@ -107,6 +133,7 @@ const searchByTitle = async (title) => {
 
 const getOne = async (id) => {
     try {
+        // Obtiene la entrada que coincida con el id dado
         const response = await Movie.findOne({
             where: {
                 id: id
@@ -114,8 +141,9 @@ const getOne = async (id) => {
             include: [Character]
         });
 
+        // Devuelve error en caso de que no exista el id proporcionado
         if (response === null) {
-            const error = new Error(`No se encuentra la pelicula o serie ${id}.` );
+            const error = new Error(`No se encuentra la pelicula o serie ${id}.`);
             error.status = 404;
             throw error;
         }
@@ -128,9 +156,24 @@ const getOne = async (id) => {
 
 const create = async (data) => {
     try {
-        const { title, image, rating, genre_id } = data;
+        const { title, rating, releaseDate, image, genre_id } = data;
 
-        const response = await Movie.create({ title: title, image: image, rating: rating, genre_id });
+        // Verificar si existe otra entrada con el mismo titulo
+        const movie = await Movie.findOne({
+            where: {
+                title: title
+            }
+        });
+
+        // Si ya existe dicho titulo, devuelve error
+        if (movie != null) {
+            const error = new Error(`Ya existe Pelicula o Serie con el titulo: ${title}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no existe previamente, insertar el nuevo movie en la tabla
+        const response = await Movie.create({ title: title, rating: rating, releaseDate: releaseDate, image: image, genre_id });
 
         return response;
     } catch (error) {
