@@ -24,18 +24,30 @@ Movie.init({
         autoIncrement: true,
         primaryKey: true
     },
-    image: {
-        type: DataTypes.STRING
-    },
     title: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
-            notEmpty: true
+            // notEmpty: true
+            notEmpty: {
+                msg: 'No se proporcionó Título (title), o  sólo contiene espacios.'
+            }
         }
     },
     rating: {
         type: DataTypes.INTEGER,
+        validate: {
+            min: 1,
+            max: 5
+        }
+    },
+    releaseDate: {
+        type: DataTypes.DATEONLY, // formato de fecha => AAAA-MM-DD
+        allowNull: false,
+    },
+    image: {
+        type: DataTypes.STRING
     }
 }, {
     sequelize,

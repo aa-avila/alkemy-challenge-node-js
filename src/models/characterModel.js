@@ -25,14 +25,14 @@ Character.init({
         autoIncrement: true,
         primaryKey: true
     },
-    image: {
-        type: DataTypes.STRING,
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true
+            // notEmpty: true
+            notEmpty: {
+                msg: 'No se proporcionó nombre (name), o  sólo contiene espacios.'
+            }
         }
     },
     age: {
@@ -42,6 +42,9 @@ Character.init({
         type: DataTypes.INTEGER,
     },
     story: {
+        type: DataTypes.STRING,
+    },
+    image: {
         type: DataTypes.STRING,
     }
 }, {

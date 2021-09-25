@@ -22,15 +22,19 @@ Genre.init({
         autoIncrement: true,
         primaryKey: true
     },
-    image: {
-        type: DataTypes.STRING
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
-            notEmpty: true
+            // notEmpty: true
+            notEmpty: {
+                msg: 'No se proporcionó nombre (name), o  sólo contiene espacios.'
+            }
         }
+    },
+    image: {
+        type: DataTypes.STRING
     }
 }, {
     sequelize,

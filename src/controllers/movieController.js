@@ -1,8 +1,8 @@
 /** MOVIES */
 //
 // GET /movies => devuelve listado de movies (id, image, title, createdAt)
-// .... busqueda por title y filtro por genre(idGenre)
-// .... orden ASC | DESC (createdAt)
+// .... busqueda por title y filtro por genre(genre_id)
+// .... orden ASC | DESC (releaseDate)
 //
 // GET /movies/:id => detalle de pelicula + characters asociados
 //
@@ -18,7 +18,21 @@ const MovieSvc = require('../services/movieService');
 
 const getAll = async (req, res, next) => {
     try {
-        const response = {};
+        const { title, genre_id, order } = req.query;
+        let response = {};
+
+        if (!title && !genre_id) {
+            response = await MovieSvc.getAll(order);
+        }
+
+        if (genre_id) {
+            response = await MovieSvc.filterByGenre(genre_id, order);
+        }
+
+        if (title) {
+            response = await MovieSvc.searchByTitle(title);
+        }
+
 
         res.send(response);
     } catch (error) {
@@ -28,7 +42,9 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+
+        const response = await MovieSvc.getOne(id);
 
 
         res.send(response);
@@ -39,7 +55,8 @@ const getOne = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        const response = {};
+        const data = req.body;
+        const response = await MovieSvc.create(data);
 
 
         res.send(response);

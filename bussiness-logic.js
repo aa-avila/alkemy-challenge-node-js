@@ -5,12 +5,12 @@
 
 /** PERSONAJE => character (tabla: characters)
  * ID => id
- * Imagen (url) => image
  * Nombre => name
  * Edad => age
  * Peso => weight
  * Historia => story
- * Peliculas o series asociadas => movies
+ * Imagen (url) => image
+ * Peliculas o series asociadas => movies (sequelize assoc ManyToMany)
  * (extra):
  * Fecha de creacion => createdAt
  * Fecha de actualizacion => updatedAt
@@ -18,12 +18,14 @@
 
 /** PELICULA O SERIE => movie (tabla: movies)
  * ID => id
- * Imagen (url) => image
  * Titulo => title
  * Calificacion => rating (1-5)
- * Personajes asociados => characters
- * Fecha de creacion => createdAt
+ * Fecha de lanzamiento => releaseDate (formato de fecha => AAAA-MM-DD)
+ * Imagen (url) => image
+ * Personajes asociados => characters (sequelize assoc ManyToMany)
  * (extra):
+ * Genero => genre_id (generado mediante sequelize assoc OneToMany)
+ * Fecha de creacion => createdAt
  * Fecha de actualizacion => updatedAt
  * 
 */
@@ -31,9 +33,9 @@
 
 /** GENERO => genre (tabla: genres)
  * ID => id
- * Imagen (url) => image
  * Nombre => name
- * Peliculas o series asociadas => movies
+ * Imagen (url) => image
+ * Peliculas o series asociadas => movies (sequelize assoc OneToMany)
  * (extra):
  * Fecha de creacion => createdAt
  * Fecha de actualizacion => updatedAt
@@ -77,7 +79,7 @@
 //
 // GET /movies => devuelve listado de movies (id, image, title, createdAt)
 // .... busqueda por title y filtro por genre(idGenre)
-// .... orden ASC | DESC (createdAt)
+// .... orden ASC | DESC (releaseDate)
 //
 // GET /movies/:id => detalle de pelicula + characters asociados
 //
