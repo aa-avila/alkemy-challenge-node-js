@@ -137,7 +137,7 @@ const deleteOne = async (id) => {
 
         // Si hay relacionadas, no permite borrar y genera error
         if (relatedMovies.length != 0) {
-            const error = new Error('No se pueden eliminar los generos ya que existen peliculas o series asociados.');
+            const error = new Error(`No se puede eliminar el genero ${id} ya que existen peliculas o series asociados.`);
             error.status = 409;
             throw error;
         }
@@ -166,6 +166,9 @@ const deleteOne = async (id) => {
 
 const deleteAll = async () => {
     try {
+        // TODO: reemplazar por findOne (traer la primera movie que tenga un genre_id notNull)
+        // de esta manera cumple con la condicion de que al menos haya 1 movie relacionada
+        // y evitamos traer toooooodas las peliculas con dicho genero
         // Verificar si existen movies relacionadas
         const relatedMovies = await Movie.findAll({
             where: {
