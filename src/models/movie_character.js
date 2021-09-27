@@ -16,6 +16,7 @@ Movie_Character.init({
     },
     movie_id: {
         type: DataTypes.INTEGER,
+        unique: false,
         references: {
             model: Movie,
             key: 'id'
@@ -23,6 +24,7 @@ Movie_Character.init({
     },
     character_id: {
         type: DataTypes.INTEGER,
+        unique: false,
         references: {
             model: Character,
             key: 'id'
@@ -48,3 +50,6 @@ Character.belongsToMany(Movie, {
     // as: "movies",
     foreignKey: "character_id",
 });
+
+
+module.exports = Movie_Character;

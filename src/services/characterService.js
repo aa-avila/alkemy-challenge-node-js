@@ -92,9 +92,17 @@ const filterByWeight = async (weight) => {
 
 const filterByMovie = async (movie_id) => {
     try {
-        const response = [];
+        // Traemos todos los character_id que se correspondan con movie_id en movie_character
+        const relatedCharacters_ids = await Movie_Character.findAll({
+            where: {
+                movie_id: movie_id
+            },
+            attributes: {
+                exclude: ['id', 'movie_id'],
+            }
+        });
 
-        return response;
+        return relatedCharacters_ids;
     } catch (error) {
         throw error;
     }
@@ -232,8 +240,26 @@ const deleteOne = async (id) => {
 
 const deleteAll = async () => {
     try {
-        const response = {};
+        //Verficar si hay relaciones movie_character (al menos una)
+        const relations = await Movie_Character.findOne();
 
+        // Si hay relacionados, no se permite borrar y genera error
+        if (relations) {
+            const error = new Error('No se pueden eliminar todos los personajes ya que existen Peliculas o Series relacionadas.');
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay movies relacionadas, se procede a borrar todas las entradas
+        const response = await Character.destroy({
+            where: {
+                id: {
+                    [Op.gt]: 0
+                }
+            }
+        });
+
+        // Retorna la cantidad de filas eliminadas
         return response;
     } catch (error) {
         throw error;

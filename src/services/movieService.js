@@ -183,7 +183,7 @@ const create = async (data) => {
     }
 }
 
-const update = async (data) => {
+const update = async (id, data) => {
     try {
         const { title, rating, releaseDate, image, genre_id } = data;
 
@@ -266,26 +266,24 @@ const deleteOne = async (id) => {
 
 const deleteAll = async () => {
     try {
-        // Verificar si existe al menos 1 movie con characters relacionados (evitar traer todo)
+        //Verficar si hay relaciones movie_character (al menos una)
+        const relations = await Movie_Character.findOne();
 
         // Si hay relacionados, no se permite borrar y genera error
-        // if (relatedCharacters.length != 0) {
-        //     const error = new Error(`No se puede eliminar la Pelicula o Serie ${id} ya que existen personajes asociados.`);
-        //     error.status = 409;
-        //     throw error;
-        // }
+        if (relations) {
+            const error = new Error('No se pueden eliminar todas las Peliculas o Series ya que existen personajes relacionados.');
+            error.status = 409;
+            throw error;
+        }
 
-        // Si no hay characters relacionados, se procede a borrar todas las entradas
-        // const response = await Movie.destroy({
-        //     where: {
-        //         id: {
-        //             [Op.gt]: 0
-        //         }
-        //     }
-        // });
-
-
-        const response = {};
+        // Si no hay characters relacionadas, se procede a borrar todas las entradas
+        const response = await Movie.destroy({
+            where: {
+                id: {
+                    [Op.gt]: 0
+                }
+            }
+        });
 
         // Retorna la cantidad de filas eliminadas
         return response;
