@@ -16,6 +16,8 @@
 
 const Movie = require('../models/movieModel');
 const Character = require('../models/characterModel');
+const Movie_Character = require('../models/movie_character');
+
 const { Op } = require("sequelize");
 
 
