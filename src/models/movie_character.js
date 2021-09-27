@@ -3,6 +3,22 @@ const sequelize = require('../database/db');
 
 const Movie = require('./movieModel');
 const Character = require('./characterModel');
+/*
+const Movie_Character = sequelize.define('movie_character', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    },
+    
+}, { timestamps: false }
+);
+
+Movie.belongsToMany(Character, { through: Movie_Character });
+Character.belongsToMany(Movie, { through: Movie_Character });
+*/
+
 
 
 class Movie_Character extends Model { }
@@ -50,6 +66,8 @@ Character.belongsToMany(Movie, {
     // as: "movies",
     foreignKey: "character_id",
 });
+
+
 
 
 module.exports = Movie_Character;

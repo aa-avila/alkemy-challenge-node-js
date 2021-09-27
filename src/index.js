@@ -15,7 +15,7 @@ app.listen(PORT, async () => {
     console.log('Conexion exitosa a la base de datos!');
 
     // Sincronizar modelos con tablas:
-    //await sequelize.sync({ alter: true }); // {alter: true} => modifica las tablas para emparejar con los campos
+   // await sequelize.sync({ alter: true }); // {alter: true} => modifica las tablas para emparejar con los campos
     //await sequelize.sync({ force: true }); // {force: true} => drop & create todas las tablas. Perdida total de datos.
     //console.log("Todos los modelos fueron sincronizados correctamente.");
     //

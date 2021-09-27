@@ -116,7 +116,13 @@ const getOne = async (id) => {
             where: {
                 id: id
             },
-            include: [Movie]
+            include: [{
+                model: Movie,
+                as: 'movies',
+                attributes: {
+                    exclude: ['genre_id', 'rating', 'createdAt', 'updatedAt']
+                }
+            }]
         });
 
         // Devuelve error en caso de que no exista el id proporcionado
@@ -126,7 +132,33 @@ const getOne = async (id) => {
             throw error;
         }
 
-        return response;
+         // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
+         const movies = response.movies;
+
+         const moviesMap = movies.map((item) => {
+             const newItem = {
+                 id: item.id,
+                 name: item.name,
+                 image: item.image,
+                 releaseDate: item.releaseDate
+             }
+             return newItem;
+         });
+ 
+         // Objeto 'character' para enviar como respuesta
+         const character = {
+             id: response.id,
+             name: response.name,
+             age: response.age,
+             weight: response.weight,
+             story: response.story,
+             image: response.image,
+             createdAt: response.createdAt,
+             updatedAt: response.updatedAt,
+             movies: moviesMap
+         };
+ 
+         return character;
     } catch (error) {
         throw error;
     }
@@ -180,18 +212,47 @@ const update = async (id, data) => {
             }
         });
 
-        // Traemos la entrada actuallizada y la enviamos como respuesta
-        const character = await Character.findOne({
+        // Traemos la entrada actuallizada
+        const response = await Character.findOne({
             where: {
                 id: id
             },
-            include: [Movie],
-            // attributes: {
-            //     exclude: ['createdAt', 'updatedAt'],
-            // }
+            include: [{
+                model: Movie,
+                as: 'movies',
+                attributes: {
+                    exclude: ['genre_id', 'rating', 'createdAt', 'updatedAt']
+                }
+            }]
         });
 
-        return (character);
+         // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
+         const movies = response.movies;
+
+         const moviesMap = movies.map((item) => {
+             const newItem = {
+                 id: item.id,
+                 name: item.name,
+                 image: item.image,
+                 releaseDate: item.releaseDate
+             }
+             return newItem;
+         });
+ 
+         // Objeto 'character' para enviar como respuesta
+         const character = {
+             id: response.id,
+             name: response.name,
+             age: response.age,
+             weight: response.weight,
+             story: response.story,
+             image: response.image,
+             createdAt: response.createdAt,
+             updatedAt: response.updatedAt,
+             movies: moviesMap
+         };
+ 
+         return character;
     } catch (error) {
         throw error;
     }

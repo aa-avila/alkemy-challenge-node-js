@@ -29,7 +29,7 @@ const getAll = async (order) => {
         if (!order) {
             response = await Movie.findAll({
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
+                    exclude: ['createdAt', 'updatedAt', 'genre_id', 'rating'],
                 }
             });
         }
@@ -49,7 +49,7 @@ const getAll = async (order) => {
             // Si la query es correcta, envia respuesta con las movies en el orden especificado 
             response = await Movie.findAll({
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
+                    exclude: ['createdAt', 'updatedAt', 'genre_id', 'rating'],
                 },
                 order: [
                     ['releaseDate', order]
@@ -74,7 +74,7 @@ const filterByGenre = async (genre_id, order) => {
                     genre_id: genre_id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
+                    exclude: ['createdAt', 'updatedAt', 'genre_id', 'rating'],
                 }
             });
         }
@@ -120,10 +120,21 @@ const searchByTitle = async (title) => {
                     [Op.substring]: title // permite que el titulo proporcionado no este completo, es decir, que sea una subcadena
                 }
             },
-            include: [Character],
             attributes: {
-                exclude: ['createdAt', 'updatedAt'],
-            }
+                exclude: ['rating', 'genre_id', 'createdAt', 'updatedAt']
+            },
+            /*
+            include: [{
+                model: Character,
+                as: 'characters',
+                //through: { attributes: [] } //<-- prevent mapping object from being added
+
+                attributes: {
+                    exclude: ['age', 'weight', 'story', 'createdAt', 'updatedAt']
+                }
+
+            }]
+            */
         });
 
         return response;
@@ -140,7 +151,13 @@ const getOne = async (id) => {
             where: {
                 id: id
             },
-            include: [Character]
+            include: [{
+                model: Character,
+                as: 'characters',
+                attributes: {
+                    exclude: ['age', 'weight', 'story', 'createdAt', 'updatedAt']
+                }
+            }]
         });
 
         // Devuelve error en caso de que no exista el id proporcionado
@@ -150,7 +167,32 @@ const getOne = async (id) => {
             throw error;
         }
 
-        return response;
+        // Tomamos el array de personajes para luego crear uno nuevo personalizado (sin "movie_character")
+        const characters = response.characters;
+
+        const charactersMap = characters.map((item) => {
+            const newItem = {
+                id: item.id,
+                name: item.name,
+                image: item.image
+            }
+            return newItem;
+        });
+
+        // Objeto 'movie" para enviar como respuesta
+        const movie = {
+            id: response.id,
+            title: response.title,
+            rating: response.rating,
+            releaseDate: response.releaseDate,
+            image: response.image,
+            createdAt: response.createdAt,
+            updatedAt: response.updatedAt,
+            genre_id: response.genre_id,
+            characters: charactersMap
+        };
+
+        return movie;
     } catch (error) {
         throw error;
     }
@@ -206,18 +248,45 @@ const update = async (id, data) => {
         });
 
         // Traemos la entrada actuallizada y la enviamos como respuesta
-        const movie = await Movie.findOne({
+        const response = await Movie.findOne({
             where: {
                 id: id
             },
-            include: [Character],
-            // attributes: {
-            //     exclude: ['createdAt', 'updatedAt'],
-            // }
+            include: [{
+                model: Character,
+                as: 'characters',
+                attributes: {
+                    exclude: ['age', 'weight', 'story', 'createdAt', 'updatedAt']
+                }
+            }]
         });
 
-        return (movie);
+        // Tomamos el array de personajes para luego crear uno nuevo personalizado (sin "movie_character")
+        const characters = response.characters;
 
+        const charactersMap = characters.map((item) => {
+            const newItem = {
+                id: item.id,
+                name: item.name,
+                image: item.image
+            }
+            return newItem;
+        });
+
+        // Objeto 'movie" para enviar como respuesta
+        const movie = {
+            id: response.id,
+            title: response.title,
+            rating: response.rating,
+            releaseDate: response.releaseDate,
+            image: response.image,
+            createdAt: response.createdAt,
+            updatedAt: response.updatedAt,
+            genre_id: response.genre_id,
+            characters: charactersMap
+        };
+
+        return (movie);
     } catch (error) {
         throw error;
     }
@@ -292,6 +361,41 @@ const deleteAll = async () => {
     }
 }
 
+// CHARACTERS ASSOC
+
+const addCharacter = async (movie_id, character_id) => {
+    try {
+        // Verificar si existe movie
+
+
+        // Si NO existe dicho movie, devuelve error
+        // if (movie == null) {
+        //     const error = new Error(`No existe Pelicula o Serie con el titulo: ${title}`);
+        //     error.status = 409;
+        //     throw error;
+        // }
+
+        // Verificar si existe character
+
+        // Si NO existe dicho character, devuelve error
+        // if (character == null) {
+        //     const error = new Error(`No existe Personaje: ${title}`);
+        //     error.status = 409;
+        //     throw error;
+        // }
+
+
+
+        // Si ambos existen, insertar el nuevo movie_character en la tabla
+        const response = await Movie_Character.create({ movie_id, character_id });
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 module.exports = {
     getAll,
     filterByGenre,
@@ -300,5 +404,7 @@ module.exports = {
     create,
     update,
     deleteOne,
-    deleteAll
+    deleteAll,
+    //
+    addCharacter
 }
