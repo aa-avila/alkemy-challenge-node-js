@@ -67,8 +67,10 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+        const data = req.body;
 
+        const response = await MovieSvc.update(id, data);
 
         res.send(response);
     } catch (error) {
@@ -78,10 +80,11 @@ const update = async (req, res, next) => {
 
 const deleteOne = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
 
+        const response = await MovieSvc.deleteOne(id);
 
-        res.send(response);
+        res.send({ "Message": `La pelicula ${id} se elimino correctamente.` });
     } catch (error) {
         next(error);
     }
@@ -89,10 +92,48 @@ const deleteOne = async (req, res, next) => {
 
 const deleteAll = async (req, res, next) => {
     try {
-        const response = {};
+        const response = await MovieSvc.deleteAll();
 
+        res.send({ "Message": `Se eliminaron ${response} Peliculas y/o Series en total.` });
+    } catch (error) {
+        next(error);
+    }
+}
+
+// CHARACTERS ASSOC
+
+const addCharacter = async (req, res, next) => {
+    try {
+        const { movie_id } = req.params;
+        const { character_id } = req.body;
+
+        const response = await MovieSvc.addCharacter(movie_id, character_id);
 
         res.send(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteOneCharacter = async (req, res, next) => {
+    try {
+        const { movie_id, character_id } = req.params;
+
+        const response = await MovieSvc.deleteOneCharacter(movie_id, character_id);
+
+        res.send({'Message': `Se ha eliminado el Personaje ${character_id} de la Pelicula o Serie ${movie_id}.`});
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteAllCharacters = async (req, res, next) => {
+    try {
+        const { movie_id } = req.params;
+
+        const response = await MovieSvc.deleteAllCharacters(movie_id);
+
+        res.send({'Message': `Se han eliminado ${response} personajes de la Pelicula o Serie ${movie_id}.`});
     } catch (error) {
         next(error);
     }
@@ -104,5 +145,9 @@ module.exports = {
     create,
     update,
     deleteOne,
-    deleteAll
+    deleteAll,
+    //
+    addCharacter,
+    deleteOneCharacter,
+    deleteAllCharacters
 }

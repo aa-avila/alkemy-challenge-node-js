@@ -14,10 +14,20 @@
 
 
 const Character = require('../models/characterModel');
+const Movie = require('../models/movieModel');
+const Movie_Character = require('../models/movie_character');
 
-const getAll = async (queryOpt) => {
+const { Op } = require("sequelize");
+
+
+
+const getAll = async () => {
     try {
-        const response = {};
+        const response = await Character.findAll({
+            attributes: {
+                exclude: ['age', 'weight', 'story', 'createdAt', 'updatedAt'],
+            }
+        });
 
         return response;
     } catch (error) {
@@ -25,11 +35,130 @@ const getAll = async (queryOpt) => {
     }
 }
 
-const getOne = async (id) => {
+const searchByName = async (name) => {
     try {
-        const response = {};
+        // Buscamos todas las entradas que contengan "name" en la columna correspondiente
+        const response = await Character.findAll({
+            where: {
+                name: {
+                    [Op.substring]: name // permite que el nombre proporcionado no este completo, es decir, que sea una subcadena
+                }
+            },
+            include: [Movie],
+            attributes: {
+                exclude: ['createdAt', 'updatedAt'],
+            }
+        });
 
         return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const filterByAge = async (age) => {
+    try {
+        const response = await Character.findAll({
+            where: {
+                age: age
+            },
+            attributes: {
+                exclude: ['weight', 'story', 'createdAt', 'updatedAt'],
+            }
+        });
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const filterByWeight = async (weight) => {
+    try {
+        const response = await Character.findAll({
+            where: {
+                weight: weight
+            },
+            attributes: {
+                exclude: ['age', 'story', 'createdAt', 'updatedAt'],
+            }
+        });
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const filterByMovie = async (movie_id) => {
+    try {
+        // Traemos todos los character_id que se correspondan con movie_id en movie_character
+        const relatedCharacters_ids = await Movie_Character.findAll({
+            where: {
+                movie_id: movie_id
+            },
+            attributes: {
+                exclude: ['id', 'movie_id'],
+            }
+        });
+
+        return relatedCharacters_ids;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+const getOne = async (id) => {
+    try {
+        // Obtiene la entrada que coincida con el id dado
+        const response = await Character.findOne({
+            where: {
+                id: id
+            },
+            include: [{
+                model: Movie,
+                as: 'movies',
+                attributes: {
+                    exclude: ['genre_id', 'rating', 'createdAt', 'updatedAt']
+                }
+            }]
+        });
+
+        // Devuelve error en caso de que no exista el id proporcionado
+        if (response === null) {
+            const error = new Error(`No se encuentra el personaje ${id}.`);
+            error.status = 404;
+            throw error;
+        }
+
+         // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
+         const movies = response.movies;
+
+         const moviesMap = movies.map((item) => {
+             const newItem = {
+                 id: item.id,
+                 name: item.name,
+                 image: item.image,
+                 releaseDate: item.releaseDate
+             }
+             return newItem;
+         });
+ 
+         // Objeto 'character' para enviar como respuesta
+         const character = {
+             id: response.id,
+             name: response.name,
+             age: response.age,
+             weight: response.weight,
+             story: response.story,
+             image: response.image,
+             createdAt: response.createdAt,
+             updatedAt: response.updatedAt,
+             movies: moviesMap
+         };
+ 
+         return character;
     } catch (error) {
         throw error;
     }
@@ -37,7 +166,24 @@ const getOne = async (id) => {
 
 const create = async (data) => {
     try {
-        const response = {};
+        const { name, age, weight, story, image } = data;
+
+        // Verificar si existe otra entrada con el mismo nombre
+        const character = await Character.findOne({
+            where: {
+                name: name
+            }
+        });
+
+        // Si ya existe dicho nombre, devuelve error
+        if (character != null) {
+            const error = new Error(`Ya existe personaje con el nombre: ${name}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no existe previamente, insertar el nuevo character en la tabla
+        const response = await Character.create({ name: name, age: age, weight: weight, story: story, image: image });
 
         return response;
     } catch (error) {
@@ -45,11 +191,68 @@ const create = async (data) => {
     }
 }
 
-const update = async (data) => {
+const update = async (id, data) => {
     try {
-        const response = {};
+        const { name, age, weight, story, image } = data;
 
-        return response;
+        // Verificar si existe antes de hacer el update
+        // si no existe, arroja error:
+        const characterToUpdate = await Character.findByPk(id);
+
+        if (!characterToUpdate) {
+            const error = new Error(`El personaje ${id} no existe.`);
+            error.status = 404;
+            throw error;
+        }
+
+        // Actualiza BD
+        await Character.update({ name: name, age: age, weight: weight, story: story, image: image }, {
+            where: {
+                id: id
+            }
+        });
+
+        // Traemos la entrada actuallizada
+        const response = await Character.findOne({
+            where: {
+                id: id
+            },
+            include: [{
+                model: Movie,
+                as: 'movies',
+                attributes: {
+                    exclude: ['genre_id', 'rating', 'createdAt', 'updatedAt']
+                }
+            }]
+        });
+
+         // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
+         const movies = response.movies;
+
+         const moviesMap = movies.map((item) => {
+             const newItem = {
+                 id: item.id,
+                 name: item.name,
+                 image: item.image,
+                 releaseDate: item.releaseDate
+             }
+             return newItem;
+         });
+ 
+         // Objeto 'character' para enviar como respuesta
+         const character = {
+             id: response.id,
+             name: response.name,
+             age: response.age,
+             weight: response.weight,
+             story: response.story,
+             image: response.image,
+             createdAt: response.createdAt,
+             updatedAt: response.updatedAt,
+             movies: moviesMap
+         };
+ 
+         return character;
     } catch (error) {
         throw error;
     }
@@ -57,8 +260,39 @@ const update = async (data) => {
 
 const deleteOne = async (id) => {
     try {
-        const response = {};
+        // Checkear si el registro que se quiere borrar existe. Si no, Error.
+        const characterToDelete = await Character.findOne({
+            where: {
+                id: id
+            },
+            include: [Movie]
+        });
 
+        if (!characterToDelete) {
+            const error = new Error(`No se encuentra Personaje: ${id}.`);
+            error.status = 404;
+            throw error;
+        }
+
+        // Verificar si existen movies relacionadas al character que se quiere borrar
+        const relatedMovies = characterToDelete.movies;
+
+
+        // Si hay relacionadas, no permite borrar y genera error
+        if (relatedMovies.length != 0) {
+            const error = new Error(`No se puede eliminar el personaje ${id} ya que existen Peliculas o Series asociadas.`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay movies relacionadas, se procede a eliminar la entrada
+        const response = await Character.destroy({
+            where: {
+                id: id
+            }
+        });
+
+        // Respuesta 1
         return response;
     } catch (error) {
         throw error;
@@ -67,8 +301,26 @@ const deleteOne = async (id) => {
 
 const deleteAll = async () => {
     try {
-        const response = {};
+        //Verficar si hay relaciones movie_character (al menos una)
+        const relations = await Movie_Character.findOne();
 
+        // Si hay relacionados, no se permite borrar y genera error
+        if (relations) {
+            const error = new Error('No se pueden eliminar todos los personajes ya que existen Peliculas o Series relacionadas.');
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay movies relacionadas, se procede a borrar todas las entradas
+        const response = await Character.destroy({
+            where: {
+                id: {
+                    [Op.gt]: 0
+                }
+            }
+        });
+
+        // Retorna la cantidad de filas eliminadas
         return response;
     } catch (error) {
         throw error;
@@ -77,6 +329,10 @@ const deleteAll = async () => {
 
 module.exports = {
     getAll,
+    searchByName,
+    filterByAge,
+    filterByWeight,
+    filterByMovie,
     getOne,
     create,
     update,

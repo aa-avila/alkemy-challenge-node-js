@@ -54,4 +54,21 @@ Movie.init({
     modelName: 'movie' // => sequelize convierte a plural el modelo para sincronizar con tabla SQL
 });
 
+
+
+
+const Genre = require('./genreModel');
+
+// Asociacion "One To Many"
+// Sequelize genera una columna "genre_id" en "movies"
+Genre.hasMany(Movie, {
+    foreignKey: 'genre_id'
+});
+
+Movie.belongsTo(Genre, {
+    foreignKey: 'genre_id'
+});
+
+
+
 module.exports = Movie;
