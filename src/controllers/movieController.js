@@ -106,14 +106,34 @@ const addCharacter = async (req, res, next) => {
     try {
         const { movie_id } = req.params;
         const { character_id } = req.body;
-        console.log('movie:', movie_id);
-        console.log('character:', character_id);
-
 
         const response = await MovieSvc.addCharacter(movie_id, character_id);
 
         res.send(response);
-        // res.send({ "Message": 'OK' });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteOneCharacter = async (req, res, next) => {
+    try {
+        const { movie_id, character_id } = req.params;
+
+        const response = await MovieSvc.deleteOneCharacter(movie_id, character_id);
+
+        res.send({'Message': `Se ha eliminado el Personaje ${character_id} de la Pelicula o Serie ${movie_id}.`});
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteAllCharacters = async (req, res, next) => {
+    try {
+        const { movie_id } = req.params;
+
+        const response = await MovieSvc.deleteAllCharacters(movie_id);
+
+        res.send({'Message': `Se han eliminado ${response} personajes de la Pelicula o Serie ${movie_id}.`});
     } catch (error) {
         next(error);
     }
@@ -127,5 +147,7 @@ module.exports = {
     deleteOne,
     deleteAll,
     //
-    addCharacter
+    addCharacter,
+    deleteOneCharacter,
+    deleteAllCharacters
 }

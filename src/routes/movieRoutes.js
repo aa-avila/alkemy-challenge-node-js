@@ -9,8 +9,8 @@ router.delete('/movies/:id', MovieCtrl.deleteOne);
 router.delete('/movies', MovieCtrl.deleteAll);
 
 router.post('/movies/:movie_id/characters', MovieCtrl.addCharacter);
-// router.delete('/movies/:movie_id/characters', MovieCtrl.deleteAllCharacters);
-// router.delete('/movies/:movie_id/characters/character_id', MovieCtrl.deleteOneCharacter);
+router.delete('/movies/:movie_id/characters/:character_id', MovieCtrl.deleteOneCharacter);
+router.delete('/movies/:movie_id/characters', MovieCtrl.deleteAllCharacters);
 
 
 

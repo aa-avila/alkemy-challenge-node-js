@@ -366,25 +366,24 @@ const deleteAll = async () => {
 const addCharacter = async (movie_id, character_id) => {
     try {
         // Verificar si existe movie
-
+        const movie = await Movie.findByPk(movie_id);
 
         // Si NO existe dicho movie, devuelve error
-        // if (movie == null) {
-        //     const error = new Error(`No existe Pelicula o Serie con el titulo: ${title}`);
-        //     error.status = 409;
-        //     throw error;
-        // }
+        if (movie == null) {
+            const error = new Error(`No existe la Pelicula o Serie: ${movie_id}`);
+            error.status = 409;
+            throw error;
+        }
 
         // Verificar si existe character
+        const character = await Character.findByPk(character_id)
 
         // Si NO existe dicho character, devuelve error
-        // if (character == null) {
-        //     const error = new Error(`No existe Personaje: ${title}`);
-        //     error.status = 409;
-        //     throw error;
-        // }
-
-
+        if (character == null) {
+            const error = new Error(`No existe Personaje: ${character_id}`);
+            error.status = 409;
+            throw error;
+        }
 
         // Si ambos existen, insertar el nuevo movie_character en la tabla
         const response = await Movie_Character.create({ movie_id, character_id });
@@ -393,6 +392,99 @@ const addCharacter = async (movie_id, character_id) => {
     } catch (error) {
         throw error;
     }
+}
+
+const deleteOneCharacter = async (movie_id, character_id) => {
+    try {
+        // Verificar si existe movie
+        const movie = await Movie.findByPk(movie_id);
+
+        // Si NO existe dicho movie, devuelve error
+        if (movie == null) {
+            const error = new Error(`No existe la Pelicula o Serie: ${movie_id}.`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Verificar si existe character
+        const character = await Character.findByPk(character_id)
+
+        // Si NO existe dicho character, devuelve error
+        if (character == null) {
+            const error = new Error(`No existe Personaje: ${character_id}.`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Verificar que existe relacion entre ambos
+        const movieCharacter = await Movie_Character.findOne({
+            where: {
+                movie_id: movie_id,
+                character_id: character_id
+            }
+        });
+
+        // Si no existe relacion, devuelve error
+        if (movieCharacter == null) {
+            const error = new Error(`El personaje ${character_id} no se encuentra relacionado a la Pelicula o Serie ${movie_id}.`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si existe dicha entrada, eliminarla
+        const response = await Movie_Character.destroy({ 
+            where: {
+                id: movieCharacter.id
+            }
+        });
+
+        // Respuesta 1
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const deleteAllCharacters = async (movie_id) => {
+    try {
+        // Verificar si existe movie
+        const movie = await Movie.findByPk(movie_id);
+
+        // Si NO existe dicho movie, devuelve error
+        if (movie == null) {
+            const error = new Error(`No existe la Pelicula o Serie: ${movie_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Buscar characters relacionados con movie_id
+        const characters = await Movie_Character.findAll({
+            where: {
+                movie_id: movie_id
+            }
+        });
+
+        // Si no se encuentran personajes relacionados, error.
+        if (characters.length === 0) {
+            const error = new Error(`No existen personajes relacionados a la Pelicula o Serie: ${movie_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si hay personajes relacionados, eliminar dichas relaciones
+        const response = await Movie_Character.destroy({ 
+            where: {
+                movie_id: movie_id
+            }
+         });
+
+         // Retorna cantidad de personajes asociados eliminados
+        return response;
+        
+    } catch (error) {
+        throw error;
+    }
+
 }
 
 
@@ -406,5 +498,7 @@ module.exports = {
     deleteOne,
     deleteAll,
     //
-    addCharacter
+    addCharacter,
+    deleteOneCharacter,
+    deleteAllCharacters
 }

@@ -292,7 +292,7 @@ const deleteOne = async (id) => {
             }
         });
 
-        // Respuesta afirmativa 1
+        // Respuesta 1
         return response;
     } catch (error) {
         throw error;
