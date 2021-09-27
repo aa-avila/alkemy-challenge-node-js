@@ -17,7 +17,29 @@ const CharacterSvc = require('../services/characterService');
 
 const getAll = async (req, res, next) => {
     try {
-        const response = {};
+        const { name, age, weight, movie_id } = req.query;
+        let response = [];
+
+
+        if (!name && !age && !movie_id) {
+            response = await CharacterSvc.getAll();
+        }
+
+        if (name) {
+            response = await CharacterSvc.searchByName(name);
+        }
+
+        if (age) {
+            response = await CharacterSvc.filterByAge(age);
+        }
+
+        if (weight) {
+            response = await CharacterSvc.filterByWeight(weight);
+        }
+
+        if (movie_id) {
+            response = await CharacterSvc.filterByMovie(movie_id);
+        }
 
         res.send(response);
     } catch (error) {
@@ -27,7 +49,9 @@ const getAll = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+
+        const response = await CharacterSvc.getOne(id);
 
 
         res.send(response);
@@ -38,7 +62,8 @@ const getOne = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        const response = {};
+        const data = req.body;
+        const response = await CharacterSvc.create(data);
 
 
         res.send(response);
@@ -49,7 +74,10 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+        const data = req.body;
+
+        const response = await CharacterSvc.update(id, data);
 
 
         res.send(response);
@@ -60,10 +88,11 @@ const update = async (req, res, next) => {
 
 const deleteOne = async (req, res, next) => {
     try {
-        const response = {};
+        const id = req.params.id;
+        
+        const response = await CharacterSvc.deleteOne(id);
 
-
-        res.send(response);
+        res.send({ "Message": `El personaje ${id} se elimino correctamente.`});
     } catch (error) {
         next(error);
     }
@@ -71,10 +100,9 @@ const deleteOne = async (req, res, next) => {
 
 const deleteAll = async (req, res, next) => {
     try {
-        const response = {};
+        const response = await CharacterSvc.deleteAll();
 
-
-        res.send(response);
+        res.send({ "Message": `Se eliminaron ${response} personajes en total.`});
     } catch (error) {
         next(error);
     }

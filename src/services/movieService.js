@@ -240,7 +240,6 @@ const deleteOne = async (id) => {
         // Verificar si existen characters relacionadas al movie que se quiere borrar
         const relatedCharacters = movieToDelete.characters;
 
-        // console.log(relatedCharacters);
 
         // Si hay relacionadas, no permite borrar y genera error
         if (relatedCharacters.length != 0) {
