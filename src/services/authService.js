@@ -4,26 +4,92 @@
 // POST /auth/register => recibe user (email) + password || devuelve OK o msj error || Envia email en caso de registro exitoso
 
 const User = require('../models/userModel');
-// import JWT
-// import bcrypt
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-const login = async () => {
+const login = async (email, password) => {
     try {
-        const response = {};
+        // Verificamos que se envien todos los datos
+        if (!email || !password) {
+            const error = new Error("No enviaste todos los datos necesarios.");
+            error.status = 400;
+            throw error;
+        }
 
-        return response;
+        // Buscamos el usario (email) en la base de datos.
+        // si no existe, generamos error. Si existe, sigue.
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        // Si no existe el usuario en la base de datos, devuelve error
+        if (!user) {
+            const error = new Error("El email proporcionado no se encuentra registrado.");
+            error.status = 400;
+            throw error;
+        }
+
+        // Si existe el user, tomamos la clave encriptada almacenada en la BD
+        const encrPass = user.password;
+
+        // Verificar la clave
+        if (!bcrypt.compareSync(password, encrPass)) {
+            const error = new Error("Contraseña invalida.");
+            error.status = 400;
+            throw error;
+        }
+
+        // Si la clave es correcta, generar sesion
+        const tokenData = {
+            email: email,
+            user_id: user.id
+        };
+
+        const token = jwt.sign(tokenData, 'Secret', {
+            expiresIn: 60 * 60 * 24 // expira en 24 hs
+        });
+
+        // enviamos token
+        return ({ token });
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
-const register = async (id) => {
+const register = async (email, password) => {
     try {
-        const response = {};
+        // Verificamos que se envien todos los datos
+        if (!email || !password) {
+            const error = new Error("No enviaste todos los datos necesarios.");
+            error.status = 400;
+            throw error;
+        }
+
+        // Buscamos el usario (email) en la base de datos.
+        // si ya existe, generamos error. Si no existe, sigue.
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        // Si ya existe el usuario en la base de datos, devuelve error
+        if (user) {
+            const error = new Error("El email ya se encuentra registrado.");
+            error.status = 400;
+            throw error;
+        }
+
+        // Si es nuevo usuario, encriptar pass y luego crear user
+        const encrPass = await bcrypt.hash(password, 10);
+
+        const response = await User.create({ email: email, password: encrPass });
 
         return response;
     } catch (error) {
-        return error.message;
+        throw error;
     }
 }
 
