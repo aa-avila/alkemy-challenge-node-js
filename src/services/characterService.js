@@ -327,6 +327,133 @@ const deleteAll = async () => {
     }
 }
 
+// MOVIES ASOCC
+
+const addMovie = async (character_id, movie_id) => {
+    try {
+        // Verificar si existe character
+        const character = await Character.findByPk(character_id);
+
+        // Si NO existe dicho character, devuelve error
+        if (character == null) {
+            const error = new Error(`No existe el personaje: ${character_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Verificar si existe movie
+        const movie = await Movie.findByPk(movie_id)
+
+        // Si NO existe dicho movie, devuelve error
+        if (movie == null) {
+            const error = new Error(`No existe la Pelicula o Serie: ${movie_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si ambos existen, insertar el nuevo movie_character en la tabla
+        const response = await Movie_Character.create({ movie_id, character_id });
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const deleteOneMovie = async (character_id, movie_id) => {
+    try {
+        // Verificar si existe character
+        const character = await Character.findByPk(character_id);
+
+        // Si NO existe dicho character, devuelve error
+        if (character == null) {
+            const error = new Error(`No existe el personaje: ${character_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Verificar si existe movie
+        const movie = await Movie.findByPk(movie_id)
+
+        // Si NO existe dicho movie, devuelve error
+        if (movie == null) {
+            const error = new Error(`No existe la Pelicula o Serie: ${movie_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Verificar que existe relacion entre ambos
+        const movieCharacter = await Movie_Character.findOne({
+            where: {
+                movie_id: movie_id,
+                character_id: character_id
+            }
+        });
+
+        // Si no existe relacion, devuelve error
+        if (movieCharacter == null) {
+            const error = new Error(`La Pelicula o Serie ${movie_id} no se encuentra relacionada al personaje ${character_id}.`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si existe dicha entrada, eliminarla
+        const response = await Movie_Character.destroy({ 
+            where: {
+                id: movieCharacter.id
+            }
+        });
+
+        // Respuesta 1
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const deleteAllMovies = async (character_id) => {
+    try {
+         // Verificar si existe character
+         const character = await Character.findByPk(character_id);
+
+         // Si NO existe dicho character, devuelve error
+         if (character == null) {
+             const error = new Error(`No existe el personaje: ${character_id}`);
+             error.status = 409;
+             throw error;
+         }
+
+        // Buscar movies relacionados con character_id
+        const movies = await Movie_Character.findAll({
+            where: {
+                character_id: character_id
+            }
+        });
+
+        // Si no se encuentran movies relacionados, error.
+        if (movies.length === 0) {
+            const error = new Error(`No existen Peliculas o Series relacionadas al personaje: ${character_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si hay movies relacionados, eliminar dichas relaciones
+        const response = await Movie_Character.destroy({ 
+            where: {
+                character_id: character_id
+            }
+         });
+
+         // Retorna cantidad de personajes asociados eliminados
+        return response;
+        
+    } catch (error) {
+        throw error;
+    }
+
+}
+
+
 module.exports = {
     getAll,
     searchByName,
@@ -337,5 +464,9 @@ module.exports = {
     create,
     update,
     deleteOne,
-    deleteAll
+    deleteAll,
+    //
+    addMovie,
+    deleteOneMovie,
+    deleteAllMovies
 }

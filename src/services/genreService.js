@@ -39,10 +39,13 @@ const getOne = async (id) => {
             where: {
                 id: id
             },
-            include: [Movie],
-            // attributes: {
-            //     exclude: ['createdAt', 'updatedAt'],
-            // }
+            include: [{
+                model: Movie,
+                as: 'movies',
+                attributes: {
+                    exclude: ['genre_id', 'rating', 'createdAt', 'updatedAt']
+                }
+            }]
         });
 
         // Arroja error en caso de que no se encuentre dicho id
