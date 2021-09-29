@@ -1,14 +1,3 @@
-/** USUARIOS => user (tabla: users)
- * ID => id
- * email => email
- * password => password (encriptada)
- * Fecha de creacion => createdAt
- * Fecha de actualizacion => updatedAt
-*/
-
-/*********************************************************** */
-/** Extendiendo Model (class) */
-
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../database/db');
 

@@ -1,19 +1,3 @@
-/** PERSONAJE => character (tabla: characters)
- * ID => id
- * Imagen (url) => image
- * Nombre => name
- * Edad => age
- * Peso => weight
- * Historia => story
- * Peliculas o series asociadas => movies
- * (extra -  autogenerados por sequelize):
- * Fecha de creacion => createdAt
- * Fecha de actualizacion => updatedAt
-*/
-
-/*********************************************************** */
-/** Extendiendo Model (class) */
-
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../database/db');
 
