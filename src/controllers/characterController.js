@@ -108,11 +108,54 @@ const deleteAll = async (req, res, next) => {
     }
 }
 
+// MOVIES ASSOC
+
+const addMovie = async (req, res, next) => {
+    try {
+        const { character_id } = req.params;
+        const { movie_id } = req.body;
+
+        const response = await CharacterSvc.addMovie(character_id, movie_id);
+
+        res.send(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteOneMovie = async (req, res, next) => {
+    try {
+        const { character_id, movie_id } = req.params;
+
+        const response = await CharacterSvc.deleteOneMovie(character_id, movie_id);
+
+        res.send({'Message': `Se ha eliminado la Pelicula o Serie ${movie_id} del personaje ${character_id}.`});
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteAllMovies = async (req, res, next) => {
+    try {
+        const { character_id } = req.params;
+
+        const response = await CharacterSvc.deleteAllMovies(character_id);
+
+        res.send({'Message': `Se han eliminado ${response} Peliculas y/o Series del personaje ${character_id}.`});
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     getAll,
     getOne,
     create,
     update,
     deleteOne,
-    deleteAll
+    deleteAll,
+    //
+    addMovie,
+    deleteOneMovie,
+    deleteAllMovies
 }
