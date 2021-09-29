@@ -1,18 +1,3 @@
-/** PELICULA O SERIE => movie (tabla: movies)
- * ID => id
- * Imagen (url) => image
- * Titulo => title
- * Calificacion => rating (1-5)
- * Personajes asociados => characters
- * Fecha de creacion => createdAt (autogenerado por sequelize)
- * (extra - autogenerado por sequelize):
- * Fecha de actualizacion => updatedAt
- * 
-*/
-
-/*********************************************************** */
-/** Extendiendo Model (class) */
-
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../database/db');
 
@@ -55,12 +40,12 @@ Movie.init({
 });
 
 
-
+// Asociacion "One To Many"
+// Sequelize genera una columna "genre_id" en "movies"
 
 const Genre = require('./genreModel');
 
-// Asociacion "One To Many"
-// Sequelize genera una columna "genre_id" en "movies"
+
 Genre.hasMany(Movie, {
     foreignKey: 'genre_id'
 });
