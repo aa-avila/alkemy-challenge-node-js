@@ -1,7 +1,7 @@
 /** AUTH */
 //
 // POST /auth/login => recibe user (email) + password || devuelve token o msj error
-// POST /auth/register => recibe user (email) + password || devuelve OK o msj error || Envia email en caso de registro exitoso
+// POST /auth/register => recibe user (email) + password || devuelve token o msj error || Envia email en caso de registro exitoso
 
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
@@ -85,9 +85,20 @@ const register = async (email, password) => {
         // Si es nuevo usuario, encriptar pass y luego crear user
         const encrPass = await bcrypt.hash(password, 10);
 
-        const response = await User.create({ email: email, password: encrPass });
+        const newUser = await User.create({ email: email, password: encrPass });
 
-        return response;
+        // Si el registro es correcto, generar sesion
+        const tokenData = {
+            email: email,
+            user_id: newUser.id
+        };
+
+        const token = jwt.sign(tokenData, 'Secret', {
+            expiresIn: 60 * 60 * 24 // expira en 24 hs
+        });
+
+        // enviamos token
+        return ({ token });
     } catch (error) {
         throw error;
     }
