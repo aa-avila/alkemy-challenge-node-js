@@ -6,6 +6,7 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const sendEmail = require('./sendgridRegEmail');
 
 const login = async (email, password) => {
     try {
@@ -96,6 +97,10 @@ const register = async (email, password) => {
         const token = jwt.sign(tokenData, 'Secret', {
             expiresIn: 60 * 60 * 24 // expira en 24 hs
         });
+
+
+        // sendgrid registration email
+        await sendEmail(email, newUser.id, password);
 
         // enviamos token
         return ({ token });
