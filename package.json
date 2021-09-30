@@ -20,7 +20,10 @@
   },
   "homepage": "https://github.com/aa-avila/alkemy-challenge-node-js#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.7",
+    "bcrypt": "^5.0.1",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
     "sequelize": "^6.6.5"
   },

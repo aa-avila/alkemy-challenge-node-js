@@ -5,25 +5,27 @@
 
 const AuthSvc = require('../services/authService');
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
-        const response = {};
+        const { email, password } = req.body;
+
+        const response = await AuthSvc.login(email, password);
 
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     try {
-        const response = {};
+        const { email, password } = req.body;
+
+        const response = await AuthSvc.register(email, password);
 
         res.send(response);
     } catch (error) {
-        res.status(500).send({ 'Error': error.message });
-        console.log(error.message);
+        next(error);
     }
 }
 
