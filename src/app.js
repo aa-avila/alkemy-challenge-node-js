@@ -7,7 +7,7 @@ const genreRoutes = require('./routes/genreRoutes');
 const characterRoutes = require('./routes/characterRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 
-const swaggerDoc = require('./swaggerDoc');
+const swaggerDoc = require('./docs');
 
 
 /*********************/
@@ -52,7 +52,6 @@ app.use((error, req, res, next) => {
     res.status(error.status || 500).send({ 'Error': error.message || 'Internal Server Error.' });
     console.log(error.message);
 });
-
 
 /*********************/
 module.exports = app;
