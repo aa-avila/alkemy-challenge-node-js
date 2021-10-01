@@ -2,14 +2,21 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 
 const basicInfo = require('./basicInfo');
-const auth = require('./auth');
-
-
+const tags = require('./tags');
+const paths = require('./paths');
+const components = require('./components');
 
 
 const swaggerDefinition = {
     ...basicInfo,
-    ...auth
+    ...components,
+    security: [
+        {
+            bearerAuth: [],
+        },
+    ],
+    ...tags,
+    ...paths
 };
 
 const options = {
@@ -19,7 +26,7 @@ const options = {
 
 const swaggerSpec = swaggerJsDoc(options);
 
-console.log(options);
+// console.log(options);
 
 module.exports = (app) => {
     app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));

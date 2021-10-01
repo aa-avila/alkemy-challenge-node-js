@@ -17,11 +17,5 @@ module.exports = {
             url: `http://localhost:${PORT}`,
             description: 'Local development server'
         }
-    ],
-    tags: [
-        { name: 'AUTH' },
-        { name: 'GENRES' },
-        { name: 'CHARACTERS' },
-        { name: 'MOVIES' },
     ]
 };
