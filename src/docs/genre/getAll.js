@@ -2,7 +2,7 @@ module.exports = {
     get: {
         tags: ['GENRES'],
         description: "Obtener todos los géneros registrados.",
-        operationId: "genreGetAll",
+        operationId: "getAllGenres",
         parameters: [],
         responses: {
             '200': {

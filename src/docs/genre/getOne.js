@@ -2,7 +2,7 @@ module.exports = {
     get: {
         tags: ['GENRES'],
         description: "Obtener detalle de un género.",
-        operationId: "genreGetOne",
+        operationId: "getOneGenre",
         parameters: [
             {
                 name: 'id',
@@ -19,7 +19,7 @@ module.exports = {
             '401': {
                 description: 'Error de autenticación.'
             },
-            '401': {
+            '404': {
                 description: 'No se encuentra el recurso solicitado.'
             },
             '500': {
