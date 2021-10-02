@@ -8,19 +8,7 @@ module.exports = {
             content: {
                 'application/json': {
                     schema: {
-                        type: 'object',
-                        properties: {
-                            name: {
-                                type: 'string',
-                                description: "Nombre del género.",
-                                example: "Comedia"
-                            },
-                            image: {
-                                type: 'string',
-                                description: "Url de la imagen del género.",
-                                example: "https://www.pngkit.com/png/detail/876-8767016_disney-comedy-disney-channel.png"
-                            },
-                        }
+                        $ref: "#/components/schemas/genre_properties"
                     }
                 }
             }
@@ -31,6 +19,9 @@ module.exports = {
             },
             '401': {
                 description: 'Error de autenticación.'
+            },
+            '409': {
+                description: 'Ya existe género con el mismo nombre.'
             },
             '500': {
                 description: 'Error del servidor.'

@@ -12,6 +12,7 @@ Character.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
             // notEmpty: true
             notEmpty: {
@@ -26,10 +27,10 @@ Character.init({
         type: DataTypes.INTEGER,
     },
     story: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     image: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     }
 }, {
     sequelize,

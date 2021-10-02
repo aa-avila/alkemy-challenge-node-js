@@ -87,6 +87,9 @@ const filterByMovie = async (movie_id) => {
             }
         });
 
+        //FIXME: en caso de existir asoc, traer los charachters completos a partir de dichos ids
+        //
+
         return relatedCharacters_ids;
     } catch (error) {
         throw error;

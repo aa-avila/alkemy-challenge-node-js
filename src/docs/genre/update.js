@@ -16,19 +16,7 @@ module.exports = {
             content: {
                 'application/json': {
                     schema: {
-                        type: 'object',
-                        properties: {
-                            name: {
-                                type: 'string',
-                                description: "Nombre del género.",
-                                example: "Comedia"
-                            },
-                            image: {
-                                type: 'string',
-                                description: "Url de la imagen del género.",
-                                example: "https://www.pngkit.com/png/detail/876-8767016_disney-comedy-disney-channel.png"
-                            },
-                        }
+                        $ref: "#/components/schemas/genre_properties"
                     }
                 }
             }
@@ -44,7 +32,7 @@ module.exports = {
                 description: 'No se encuentra el género solicitado.'
             },
             '409': {
-                description: 'No se puede actualizar el género ya que existen películas o series asociadas.'
+                description: 'No se puede actualizar el género ya que existen películas o series asociadas. || El nombre que se está intentando guardar ya existe.'
             },
             '500': {
                 description: 'Error del servidor.'

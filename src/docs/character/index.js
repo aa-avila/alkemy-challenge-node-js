@@ -6,12 +6,12 @@ const update = require('./update');
 const deleteOne = require('./deleteOne');
 
 module.exports = {
-    '/genres': {
+    '/characters': {
         ...getAll,
         ...create,
         ...deleteAll
     },
-    '/genres/{id}':
+    '/characters/{id}':
     {
         ...getOne,
         ...update,

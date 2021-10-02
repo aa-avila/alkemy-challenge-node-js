@@ -1,8 +1,9 @@
 module.exports = {
     get: {
-        tags: ['GENRES'],
-        description: "Obtener detalle de un género.",
-        operationId: "getOneGenre",
+        tags: ['CHARACTERS'],
+        summary: 'Obtener un personaje',
+        description: "Obtiene el detalle de un personaje mediante su ID.",
+        operationId: "getOneCharacter",
         parameters: [
             {
                 name: 'id',
@@ -14,13 +15,13 @@ module.exports = {
         ],
         responses: {
             '200': {
-                description: 'Detalle del género.'
+                description: 'Detalle del personaje.'
             },
             '401': {
                 description: 'Error de autenticación.'
             },
             '404': {
-                description: 'No se encuentra el género solicitado.'
+                description: 'No se encuentra el personaje solicitado.'
             },
             '500': {
                 description: 'Error del servidor.'

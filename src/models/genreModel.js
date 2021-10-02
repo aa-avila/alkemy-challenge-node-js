@@ -24,7 +24,7 @@ Genre.init({
         }
     },
     image: {
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
     }
 }, {
     sequelize,
