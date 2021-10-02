@@ -1,7 +1,8 @@
 module.exports = {
     post: {
         tags: ['GENRES'],
-        description: "Crear un nuevo género.",
+        summary: "Crear un nuevo género.",
+        description: 'Crea un nuevo género a partir de sus atributos básicos. El nombre (name) es requerido y no puede existir previamente en la BD. Recibe un objeto con todos los atributos del género recién creado.',
         operationId: "createGenre",
         parameters: [],
         requestBody: {

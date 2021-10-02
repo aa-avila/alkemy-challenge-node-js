@@ -1,7 +1,8 @@
 module.exports = {
     get: {
         tags: ['GENRES'],
-        description: "Obtener todos los géneros registrados.",
+        summary: 'Obtener géneros.',
+        description: "Obtener todos los géneros registrados en la BD. Recibe un array de objetos con los atributos de cada género. En caso de no encontrar elementos, el servidor devuelve un array vacío.",
         operationId: "getAllGenres",
         parameters: [],
         responses: {

@@ -1,7 +1,8 @@
 module.exports = {
     delete:{
         tags: ['GENRES'],
-        description: "Borrar todos los géneros registrados.",
+        summary: 'Eliminar todos los géneros.',
+        description: "Borra todos los géneros registrados en la BD, a menos que existan películas/series asociadas a por lo menos un género. Recibe un mensaje indicando la cantidad de elementos eliminados",
         operationId: "deleteAllGenres",
         parameters:[],
         responses:{

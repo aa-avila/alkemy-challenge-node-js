@@ -2,7 +2,7 @@ module.exports = {
     delete:{
         tags: ['CHARACTERS'],
         summary: 'Eliminar todos los personajes.',
-        description: "Borra todos los personajes registrados en la BD, a menos que existan películas/series asociadas a al menos un personaje. Recibe un mensaje indicando la cantidad de elementos eliminados",
+        description: "Borra todos los personajes registrados en la BD, a menos que existan películas/series asociadas a por lo menos un personaje. Recibe un mensaje indicando la cantidad de elementos eliminados",
         operationId: "deleteAllCharacters",
         parameters:[],
         responses:{

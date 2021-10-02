@@ -1,7 +1,8 @@
 module.exports = {
     get: {
         tags: ['GENRES'],
-        description: "Obtener detalle de un género.",
+        summary: 'Obtener un género.',
+        description: "Obtiene el detalle de un género mediante su ID. Recibe un objeto con sus atributos y películas/series asociadas a éste.",
         operationId: "getOneGenre",
         parameters: [
             {

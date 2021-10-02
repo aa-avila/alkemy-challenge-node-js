@@ -2,7 +2,7 @@ module.exports = {
     get: {
         tags: ['CHARACTERS'],
         summary: 'Obtener un personaje',
-        description: "Obtiene el detalle de un personaje mediante su ID.",
+        description: "Obtiene el detalle de un personaje mediante su ID. Recibe un objeto con sus atributos y películas/series asociadas a éste.",
         operationId: "getOneCharacter",
         parameters: [
             {

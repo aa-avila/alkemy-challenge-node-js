@@ -1,7 +1,8 @@
 module.exports = {
     put: {
         tags: ['GENRES'],
-        description: "Actualizar género.",
+        summary: "Actualizar un género.",
+        description: 'Actualiza atributos del género indicado por su ID. Recibe un objeto con los atributos y películas/series asociadas, correspondiente al género actualizado.',
         operationId: "updateGenre",
         parameters: [
             {

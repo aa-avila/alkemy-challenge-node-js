@@ -1,7 +1,8 @@
 module.exports = {
     delete: {
         tags: ['GENRES'],
-        description: "Eliminar un género.",
+        summary: "Eliminar un género.",
+        description: 'Elimina un género mediante su ID. Recibe un mensaje indicando el id del género eliminado.',
         operationId: "deleteOneGenre",
         parameters: [
             {

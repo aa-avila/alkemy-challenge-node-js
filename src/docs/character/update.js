@@ -1,8 +1,8 @@
 module.exports = {
     put: {
         tags: ['CHARACTERS'],
-        summary: "Actualizar personaje.",
-        description: 'Actualiza atributos del personaje indicado por su ID.',
+        summary: "Actualizar un personaje.",
+        description: 'Actualiza atributos del personaje indicado por su ID.  Recibe un objeto con los atributos y películas/series asociadas, correspondiente al personaje actualizado.',
         operationId: "updateCharacter",
         parameters: [
             {
