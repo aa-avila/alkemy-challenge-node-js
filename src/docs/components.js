@@ -15,6 +15,21 @@ module.exports = {
                 description: "ID único del registro en la BD",
                 example: 23
             },
+            user: {
+                type: 'object',
+                properties: {
+                    email: {
+                        type: 'string',
+                        description: "Email de usuario",
+                        example: "user@server.com"
+                    },
+                    password: {
+                        type: 'string',
+                        description: "Clave de usuario",
+                        example: "hDoej34Use"
+                    }
+                }
+            },
             genre_properties: {
                 type: 'object',
                 properties: {
