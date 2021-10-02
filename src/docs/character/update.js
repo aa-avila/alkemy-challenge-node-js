@@ -8,14 +8,6 @@ module.exports = {
             {
                 $ref: "#/components/parameters/idParam"
             }
-
-            // {
-            //     name: 'id',
-            //     in: 'path',
-            //     schema: {
-            //         $ref: "#/components/schemas/id"
-            //     }
-            // }
         ],
         requestBody: {
             content: {

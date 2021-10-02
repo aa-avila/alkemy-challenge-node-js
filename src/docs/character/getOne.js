@@ -6,11 +6,7 @@ module.exports = {
         operationId: "getOneCharacter",
         parameters: [
             {
-                name: 'id',
-                in: 'path',
-                schema: {
-                    $ref:"#/components/schemas/id"
-                }
+                $ref: "#/components/parameters/idParam"
             }
         ],
         responses: {

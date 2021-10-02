@@ -6,11 +6,7 @@ module.exports = {
         operationId: "updateGenre",
         parameters: [
             {
-                name: 'id',
-                in: 'path',
-                schema: {
-                    $ref: "#/components/schemas/id"
-                }
+                $ref: "#/components/parameters/idParam"
             }
         ],
         requestBody: {

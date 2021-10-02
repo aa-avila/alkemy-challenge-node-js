@@ -10,11 +10,6 @@ module.exports = {
             },
         },
         schemas: {
-            id: {
-                type: 'integer',
-                description: "ID único del registro en la BD",
-                example: 23
-            },
             user: {
                 type: 'object',
                 properties: {
