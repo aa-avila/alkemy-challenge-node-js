@@ -21,6 +21,9 @@ module.exports = {
             '401': {
                 description: 'Error de autenticación.'
             },
+            '400': {
+                description: 'Error en los datos enviados.'
+            },
             '404': {
                 description: 'El género indicado no existe.'
             },
