@@ -29,10 +29,10 @@
     "mysql2": "^2.3.0",
     "sequelize": "^6.6.5",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.12"
   }
 }
