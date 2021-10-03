@@ -202,7 +202,7 @@ const getOne = async (id) => {
         const moviesMap = movies.map((item) => {
             const newItem = {
                 id: item.id,
-                name: item.name,
+                title: item.title,
                 image: item.image,
                 releaseDate: item.releaseDate
             }
@@ -296,7 +296,7 @@ const update = async (id, data) => {
         const moviesMap = movies.map((item) => {
             const newItem = {
                 id: item.id,
-                name: item.name,
+                title: item.title,
                 image: item.image,
                 releaseDate: item.releaseDate
             }
