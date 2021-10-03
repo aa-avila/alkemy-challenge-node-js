@@ -2,7 +2,7 @@ module.exports = {
     delete: {
         tags: ['MOVIES'],
         summary: "Eliminar una película o serie.",
-        description: 'Elimina una película/serie mediante su ID. Recibe un mensaje indicando el id de la película/serie eliminada.',
+        description: 'Eliminar una película/serie mediante su ID. Devuelve un mensaje indicando el id de la película/serie eliminada.',
         operationId: "deleteOneMovie",
         parameters: [
             {

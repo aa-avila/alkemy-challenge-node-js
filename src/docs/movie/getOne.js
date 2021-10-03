@@ -2,7 +2,7 @@ module.exports = {
     get: {
         tags: ['MOVIES'],
         summary: 'Obtener una película o serie',
-        description: "Obtiene el detalle de una película/serie mediante su ID. Recibe un objeto con sus atributos, incluyendo género y personajes asociados.",
+        description: "Obtener el detalle de una película/serie mediante su ID. Devuelve un objeto con sus atributos, incluyendo género y personajes asociados.",
         operationId: "getOneMovie",
         parameters: [
             {

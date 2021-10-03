@@ -2,7 +2,7 @@ module.exports = {
     post: {
         tags: ['AUTH'],
         summary: 'Registro de usuario.',
-        description: "Registro de usuario por primera vez mediante usuario (email) y contraseña (password). Recibe un token de sesion.",
+        description: "Registro de usuario por primera vez mediante usuario (email) y contraseña (password). Devuelve un objeto con token de sesion.",
         operationId: "authRegister",
         parameters: [],
         requestBody: {

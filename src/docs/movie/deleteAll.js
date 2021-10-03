@@ -2,7 +2,7 @@ module.exports = {
     delete:{
         tags: ['MOVIES'],
         summary: 'Eliminar todas las películas y series.',
-        description: "Borra todas las películas/series registradas en la BD, a menos que existan personajes asociados a por lo menos una película/serie. Recibe un mensaje indicando la cantidad de elementos eliminados.",
+        description: "Borrar todas las películas/series registradas en la BD, a menos que existan personajes asociados a por lo menos una película/serie. Devuelve un mensaje indicando la cantidad de elementos eliminados.",
         operationId: "deleteAllMovies",
         parameters:[],
         responses:{

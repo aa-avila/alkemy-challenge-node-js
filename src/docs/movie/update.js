@@ -2,7 +2,7 @@ module.exports = {
     put: {
         tags: ['MOVIES'],
         summary: "Actualizar una película o serie.",
-        description: 'Actualiza atributos la película/serie indicada por su ID. Recibe un objeto con sus atributos, incluyendo género y personajes asociados, correspondiente a la película/serie actualizada.',
+        description: 'Actualizar atributos la película/serie indicada por su ID. Devuelve un objeto con sus atributos, incluyendo género y personajes asociados, correspondiente a la película/serie actualizada.',
         operationId: "updateMovie",
         parameters: [
             {

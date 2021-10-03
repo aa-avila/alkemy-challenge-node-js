@@ -2,7 +2,7 @@ module.exports = {
     delete: {
         tags: ['CHARACTERS'],
         summary: "Eliminar un personaje.",
-        description: 'Elimina un personaje mediante su ID. Recibe un mensaje indicando el id del personaje eliminado.',
+        description: 'Eliminar un personaje mediante su ID. Devuelve un mensaje indicando el id del personaje eliminado.',
         operationId: "deleteOneCharacter",
         parameters: [
             {

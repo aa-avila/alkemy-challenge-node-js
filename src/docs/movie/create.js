@@ -2,7 +2,7 @@ module.exports = {
     post: {
         tags: ['MOVIES'],
         summary: "Crear una nueva película o serie.",
-        description: 'Crea una nueva película o serie a partir de sus atributos básicos. El título (title) es requerido y no puede existir previamente en la BD. Recibe un objeto con todos los atributos de la película o serie recién creada.',
+        description: 'Crear una nueva película o serie a partir de sus atributos básicos. El título (title) es requerido y no puede existir previamente en la BD. Devuelve un objeto con todos los atributos de la película o serie recién creada.',
         operationId: "createMovie",
         parameters: [],
         requestBody: {

@@ -2,7 +2,7 @@ module.exports = {
     post: {
         tags: ['AUTH'],
         summary: 'Login de usuario.',
-        description: "Accede a la API mediante usuario (email) y contraseña (password). Recibe un token de sesion.",
+        description: "Acceder a la API mediante usuario (email) y contraseña (password). Devuelve un objeto con token de sesion.",
         operationId: "authLogin",
         parameters: [],
         requestBody: {

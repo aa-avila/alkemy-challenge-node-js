@@ -2,7 +2,7 @@ module.exports = {
     post: {
         tags: ['CHARACTERS'],
         summary: "Crear un nuevo personaje.",
-        description: 'Crea un nuevo personaje a partir de sus atributos básicos. El nombre (name) es requerido y no puede existir previamente en la BD. Recibe un objeto con todos los atributos del personaje recién creado.',
+        description: 'Crear un nuevo personaje a partir de sus atributos básicos. El nombre (name) es requerido y no puede existir previamente en la BD. Devuelve un objeto con todos los atributos del personaje recién creado.',
         operationId: "createCharacter",
         parameters: [],
         requestBody: {
