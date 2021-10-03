@@ -50,7 +50,7 @@ const getAll = async (order) => {
 
 const filterByGenre = async (genre_id, order) => {
     try {
-        let response = {};
+        let response = [];
 
         // En caso de no proporcionar parametro ORDER
         if (!order) {
@@ -82,10 +82,10 @@ const filterByGenre = async (genre_id, order) => {
                     genre_id: genre_id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'genre_id'],
+                    exclude: ['rating', 'createdAt', 'updatedAt', 'genre_id'],
                 },
                 order: [
-                    ['createdAt', order]
+                    ['releaseDate', order]
                 ]
             });
         }
@@ -96,31 +96,54 @@ const filterByGenre = async (genre_id, order) => {
     }
 }
 
-const searchByTitle = async (title) => {
+const searchByTitle = async (title, order) => {
     try {
-        // Buscamos todas las entradas que contengan "title" en la columna correspondiente
-        const response = await Movie.findAll({
-            where: {
-                title: {
-                    [Op.substring]: title // permite que el titulo proporcionado no este completo, es decir, que sea una subcadena
-                }
-            },
-            attributes: {
-                exclude: ['rating', 'genre_id', 'createdAt', 'updatedAt']
-            },
-            /*
-            include: [{
-                model: Character,
-                as: 'characters',
-                //through: { attributes: [] } //<-- prevent mapping object from being added
 
+        let response = [];
+
+        // En caso de no proporcionar parametro ORDER
+        if (!order) {
+            // Buscamos todas las entradas que contengan "title" en la columna correspondiente
+            response = await Movie.findAll({
+                where: {
+                    title: {
+                        [Op.substring]: title // permite que el titulo proporcionado no este completo, es decir, que sea una subcadena
+                    }
+                },
                 attributes: {
-                    exclude: ['age', 'weight', 'story', 'createdAt', 'updatedAt']
+                    exclude: ['rating', 'genre_id', 'createdAt', 'updatedAt']
                 }
+            });
 
-            }]
-            */
-        });
+        }
+
+        // Si se proporciona parametro ORDER
+        if (order) {
+            // Verificar parametro ORDER
+            // si no es asc o desc => throw err
+            const order_uc = order.toUpperCase();
+
+            if (order_uc != 'ASC' && order_uc != 'DESC') {
+                const error = new Error('El parametro ORDER solo admite los valores ASC y DESC.');
+                error.status = 400;
+                throw error;
+            }
+
+            // Si la query es correcta, envia respuesta con las movies que contengan "title" y en el orden especificado 
+            response = await Movie.findAll({
+                where: {
+                    title: {
+                        [Op.substring]: title // permite que el titulo proporcionado no este completo, es decir, que sea una subcadena
+                    }
+                },
+                attributes: {
+                    exclude: ['rating', 'createdAt', 'updatedAt', 'genre_id'],
+                },
+                order: [
+                    ['releaseDate', order]
+                ]
+            });
+        }
 
         return response;
     } catch (error) {
@@ -417,7 +440,7 @@ const deleteOneCharacter = async (movie_id, character_id) => {
         }
 
         // Si existe dicha entrada, eliminarla
-        const response = await Movie_Character.destroy({ 
+        const response = await Movie_Character.destroy({
             where: {
                 id: movieCharacter.id
             }
@@ -457,15 +480,15 @@ const deleteAllCharacters = async (movie_id) => {
         }
 
         // Si hay personajes relacionados, eliminar dichas relaciones
-        const response = await Movie_Character.destroy({ 
+        const response = await Movie_Character.destroy({
             where: {
                 movie_id: movie_id
             }
-         });
+        });
 
-         // Retorna cantidad de personajes asociados eliminados
+        // Retorna cantidad de personajes asociados eliminados
         return response;
-        
+
     } catch (error) {
         throw error;
     }

@@ -12,7 +12,7 @@ const getAll = async (req, res, next) => {
         }
 
         if (title) {
-            response = await MovieSvc.searchByTitle(title);
+            response = await MovieSvc.searchByTitle(title, order);
         }
 
         if (genre_id) {
