@@ -86,7 +86,12 @@ module.exports = {
                     rating: {
                         type: 'integer',
                         description: "Calificación (1-5).",
-                        example: "4"
+                        example: 4
+                    },
+                    genre_id: {
+                        type: 'integer',
+                        description: "ID del género.",
+                        example: 1
                     },
                     image: {
                         type: 'string',

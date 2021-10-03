@@ -21,6 +21,9 @@ module.exports = {
             '401': {
                 description: 'Error de autenticación.'
             },
+            '404': {
+                description: 'El género indicado no existe.'
+            },
             '409': {
                 description: 'Ya existe película/serie con el mismo nombre.'
             },
