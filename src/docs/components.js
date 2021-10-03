@@ -69,6 +69,31 @@ module.exports = {
                         example: "https://i.pinimg.com/564x/ed/de/1e/edde1e6684dacab63f7fd994040c896d.jpg"
                     }
                 }
+            },
+            movie_properties: {
+                type: 'object',
+                properties: {
+                    title: {
+                        type: 'string',
+                        description: "Nombre de la película/serie.",
+                        example: "101 dalmatas"
+                    },
+                    releaseDate: {
+                        type: 'string',
+                        description: "Fecha de lanzamiento (YYYY-MM-DD).",
+                        example: "1961-01-25"
+                    },
+                    rating: {
+                        type: 'integer',
+                        description: "Calificación (1-5).",
+                        example: "4"
+                    },
+                    image: {
+                        type: 'string',
+                        description: "Url de la imagen de la película/serie.",
+                        example: "https://http2.mlstatic.com/D_NQ_NP_625551-MLA45034977254_022021-O.jpg"
+                    }
+                }
             }
         },
         parameters: {
