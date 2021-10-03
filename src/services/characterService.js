@@ -269,7 +269,7 @@ const update = async (id, data) => {
             throw error;
         }
 
-        // Actualiza BD
+        // Si todo ok, actualiza BD
         await Character.update({ name: name, age: age, weight: weight, story: story, image: image }, {
             where: {
                 id: id
