@@ -87,6 +87,9 @@ const filterByMovie = async (movie_id) => {
             }
         });
 
+        //FIXME: en caso de existir asoc, traer los charachters completos a partir de dichos ids
+        //
+
         return relatedCharacters_ids;
     } catch (error) {
         throw error;
@@ -322,7 +325,7 @@ const addMovie = async (character_id, movie_id) => {
         // Si NO existe dicho character, devuelve error
         if (character == null) {
             const error = new Error(`No existe el personaje: ${character_id}`);
-            error.status = 409;
+            error.status = 404;
             throw error;
         }
 
@@ -332,7 +335,7 @@ const addMovie = async (character_id, movie_id) => {
         // Si NO existe dicho movie, devuelve error
         if (movie == null) {
             const error = new Error(`No existe la Pelicula o Serie: ${movie_id}`);
-            error.status = 409;
+            error.status = 404;
             throw error;
         }
 
@@ -353,7 +356,7 @@ const deleteOneMovie = async (character_id, movie_id) => {
         // Si NO existe dicho character, devuelve error
         if (character == null) {
             const error = new Error(`No existe el personaje: ${character_id}`);
-            error.status = 409;
+            error.status = 404;
             throw error;
         }
 
@@ -363,7 +366,7 @@ const deleteOneMovie = async (character_id, movie_id) => {
         // Si NO existe dicho movie, devuelve error
         if (movie == null) {
             const error = new Error(`No existe la Pelicula o Serie: ${movie_id}`);
-            error.status = 409;
+            error.status = 404;
             throw error;
         }
 
@@ -404,7 +407,7 @@ const deleteAllMovies = async (character_id) => {
          // Si NO existe dicho character, devuelve error
          if (character == null) {
              const error = new Error(`No existe el personaje: ${character_id}`);
-             error.status = 409;
+             error.status = 404;
              throw error;
          }
 

@@ -11,14 +11,13 @@ const getAll = async (req, res, next) => {
             response = await MovieSvc.getAll(order);
         }
 
+        if (title) {
+            response = await MovieSvc.searchByTitle(title, order);
+        }
+
         if (genre_id) {
             response = await MovieSvc.filterByGenre(genre_id, order);
         }
-
-        if (title) {
-            response = await MovieSvc.searchByTitle(title);
-        }
-
 
         res.send(response);
     } catch (error) {

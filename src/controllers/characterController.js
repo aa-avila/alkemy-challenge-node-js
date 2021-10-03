@@ -8,7 +8,7 @@ const getAll = async (req, res, next) => {
         let response = [];
 
 
-        if (!name && !age && !movie_id) {
+        if (!name && !age && !weight && !movie_id) {
             response = await CharacterSvc.getAll();
         }
 

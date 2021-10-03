@@ -5,3 +5,6 @@ router.post('/auth/login', AuthCtrl.login);
 router.post('/auth/register', AuthCtrl.register);
 
 module.exports = router;
+
+
+

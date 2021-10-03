@@ -1,10 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 
+const authRoutes = require('./routes/authRoutes');
+const genreRoutes = require('./routes/genreRoutes');
 const characterRoutes = require('./routes/characterRoutes');
 const movieRoutes = require('./routes/movieRoutes');
-const genreRoutes = require('./routes/genreRoutes');
-const authRoutes = require('./routes/authRoutes');
+
+const swaggerDoc = require('./docs');
 
 
 /*********************/
@@ -18,6 +21,7 @@ app.set('port', PORT);
 /*********************/
 // MIDDLEWARES
 app.use(morgan('dev'));
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -27,10 +31,12 @@ app.get('/', (req, res) => {
     res.send('Hola!');
 });
 
+app.use('/', authRoutes);
+app.use('/', genreRoutes);
 app.use('/', characterRoutes);
 app.use('/', movieRoutes);
-app.use('/', genreRoutes);
-app.use('/', authRoutes);
+
+swaggerDoc(app);
 
 /*********************/
 // ERROR HANDLING
@@ -46,7 +52,6 @@ app.use((error, req, res, next) => {
     res.status(error.status || 500).send({ 'Error': error.message || 'Internal Server Error.' });
     console.log(error.message);
 });
-
 
 /*********************/
 module.exports = app;
