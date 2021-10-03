@@ -15,7 +15,8 @@ const movieRoutes = require('./routes/movieRoutes');
 const app = express();
 
 // SET PORT
-const PORT = process.env.PORT || 3000;
+const customPort = process.env.CUSTOM_PORT;
+const PORT = process.env.PORT || customPort;
 app.set('port', PORT);
 
 /*********************/
