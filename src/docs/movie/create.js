@@ -18,6 +18,9 @@ module.exports = {
             '200': {
                 description: "Película/serie creada correctamente."
             },
+            '400': {
+                description: 'Error en la petición.'
+            },
             '401': {
                 description: 'Error de autenticación.'
             },
