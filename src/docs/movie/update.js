@@ -22,11 +22,14 @@ module.exports = {
             '200': {
                 description: "Película/serie actualizada correctamente."
             },
+            '400': {
+                description: 'Error en la petición.'
+            },
             '401': {
                 description: 'Error de autenticación.'
             },
             '404': {
-                description: 'No se encuentra la película/serie solicitada.'
+                description: 'No se encuentra la película/serie solicitada // El género indicado no existe.'
             },
             '409': {
                 description: 'No se puede actualizar la película/serie ya que existen personajes asociados.'

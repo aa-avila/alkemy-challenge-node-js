@@ -1,4 +1,5 @@
-const PORT = process.env.PORT || 3000;
+const customPort = process.env.CUSTOM_PORT;
+const PORT = process.env.PORT || customPort;
 
 module.exports = {
     openapi: '3.0.0',

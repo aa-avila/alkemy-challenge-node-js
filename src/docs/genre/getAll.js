@@ -9,6 +9,9 @@ module.exports = {
             '200': {
                 description: 'Géneros almacenados en la base de datos.'
             },
+            '400': {
+                description: 'Error en la petición.'
+            },
             '401': {
                 description: 'Error de autenticación.'
             },

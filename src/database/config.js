@@ -1,32 +1,21 @@
 /** LOCAL MySQL server */
-const database = {
+/* const database = {
     username: 'root',
     password: '',
     database: 'disney_world',
     host: 'localhost',
     Port: 3306,
     dialect: 'mysql'
+}; */
+
+/** Remote MySQL */
+const database = {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT
 };
 
 module.exports = database;
-
-
-/** Remote MySQL */
-/**
-Username: 
-Database name: 
-Password: 
-Server: remotemysql.com
-Port: 3306
- */
-
-// const database = {
-//     username: '',
-//     password: '',
-//     database: '',
-//     host: 'remotemysql.com',
-//     port: 3306,
-//     dialect: 'mysql'
-// };
-
-// module.exports = database;

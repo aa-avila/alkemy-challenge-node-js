@@ -29,13 +29,55 @@ const searchByName = async (name) => {
                     [Op.substring]: name // permite que el nombre proporcionado no este completo, es decir, que sea una subcadena
                 }
             },
-            include: [Movie],
-            attributes: {
-                exclude: ['createdAt', 'updatedAt'],
-            }
+            include: [{
+                model: Movie,
+                as: 'movies',
+                attributes: {
+                    exclude: ['genre_id', 'rating', 'createdAt', 'updatedAt']
+                }
+            }]
         });
 
-        return response;
+        // Si no hay resultados, devuelve array vacio
+        if (response.length === 0) {
+            return response;
+        }
+
+
+        // Si encuentra coincidencias, modificamos los objetos  del array de movies para eliminar "movie_character"
+        let characters = [];
+
+        response.forEach(char => {
+            const movies = char.movies;
+
+            const moviesMap = movies.map((item) => {
+                const newItem = {
+                    id: item.id,
+                    name: item.name,
+                    image: item.image,
+                    releaseDate: item.releaseDate
+                }
+                return newItem;
+            });
+
+            // Objeto 'character'
+            const character = {
+                id: char.id,
+                name: char.name,
+                age: char.age,
+                weight: char.weight,
+                story: char.story,
+                image: char.image,
+                createdAt: char.createdAt,
+                updatedAt: char.updatedAt,
+                movies: moviesMap
+            };
+
+            characters.push(character);
+        });
+
+        // Devuelve array de personajes
+        return characters;
     } catch (error) {
         throw error;
     }
@@ -87,10 +129,44 @@ const filterByMovie = async (movie_id) => {
             }
         });
 
-        //FIXME: en caso de existir asoc, traer los charachters completos a partir de dichos ids
-        //
+        // En caso de no existir asociaciones con movie_id, devuelve error
+        if (relatedCharacters_ids.length === 0) {
+            const error = new Error(`No existen personajes relacionados a la pelicula o serie: ${movie_id}.`);
+            error.status = 404;
+            throw error;
+        }
 
-        return relatedCharacters_ids;
+        //En caso de existir asociaciones, traer los characters completos a partir de dicho array de ids
+        let characters = [];
+
+        if (relatedCharacters_ids.length > 0) {
+            // Promise para manejo asíncrono del bucle forEach
+            const getChars = new Promise((resolve, reject) => {
+                relatedCharacters_ids.forEach(async (value, index, array) => {
+
+                    const character = await Character.findOne({
+                        where: {
+                            id: value.character_id
+                        },
+                        attributes: {
+                            exclude: ['age', 'weight', 'story', 'createdAt', 'updatedAt'],
+                        }
+                    });
+
+                    characters.push(character.dataValues);
+
+                    if (index === array.length - 1) resolve();
+                });
+            });
+
+            // Ejecuta la promise y espera que se obtengan todos los datos
+            await getChars.then(() => {
+                console.log('ok!');
+            });
+        }
+
+        // Retorna el array de personajes
+        return characters;
     } catch (error) {
         throw error;
     }
@@ -120,33 +196,33 @@ const getOne = async (id) => {
             throw error;
         }
 
-         // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
-         const movies = response.movies;
+        // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
+        const movies = response.movies;
 
-         const moviesMap = movies.map((item) => {
-             const newItem = {
-                 id: item.id,
-                 name: item.name,
-                 image: item.image,
-                 releaseDate: item.releaseDate
-             }
-             return newItem;
-         });
- 
-         // Objeto 'character' para enviar como respuesta
-         const character = {
-             id: response.id,
-             name: response.name,
-             age: response.age,
-             weight: response.weight,
-             story: response.story,
-             image: response.image,
-             createdAt: response.createdAt,
-             updatedAt: response.updatedAt,
-             movies: moviesMap
-         };
- 
-         return character;
+        const moviesMap = movies.map((item) => {
+            const newItem = {
+                id: item.id,
+                title: item.title,
+                image: item.image,
+                releaseDate: item.releaseDate
+            }
+            return newItem;
+        });
+
+        // Objeto 'character' para enviar como respuesta
+        const character = {
+            id: response.id,
+            name: response.name,
+            age: response.age,
+            weight: response.weight,
+            story: response.story,
+            image: response.image,
+            createdAt: response.createdAt,
+            updatedAt: response.updatedAt,
+            movies: moviesMap
+        };
+
+        return character;
     } catch (error) {
         throw error;
     }
@@ -193,7 +269,7 @@ const update = async (id, data) => {
             throw error;
         }
 
-        // Actualiza BD
+        // Si todo ok, actualiza BD
         await Character.update({ name: name, age: age, weight: weight, story: story, image: image }, {
             where: {
                 id: id
@@ -214,33 +290,33 @@ const update = async (id, data) => {
             }]
         });
 
-         // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
-         const movies = response.movies;
+        // Tomamos el array de movies para luego crear uno nuevo personalizado (sin "movie_character")
+        const movies = response.movies;
 
-         const moviesMap = movies.map((item) => {
-             const newItem = {
-                 id: item.id,
-                 name: item.name,
-                 image: item.image,
-                 releaseDate: item.releaseDate
-             }
-             return newItem;
-         });
- 
-         // Objeto 'character' para enviar como respuesta
-         const character = {
-             id: response.id,
-             name: response.name,
-             age: response.age,
-             weight: response.weight,
-             story: response.story,
-             image: response.image,
-             createdAt: response.createdAt,
-             updatedAt: response.updatedAt,
-             movies: moviesMap
-         };
- 
-         return character;
+        const moviesMap = movies.map((item) => {
+            const newItem = {
+                id: item.id,
+                title: item.title,
+                image: item.image,
+                releaseDate: item.releaseDate
+            }
+            return newItem;
+        });
+
+        // Objeto 'character' para enviar como respuesta
+        const character = {
+            id: response.id,
+            name: response.name,
+            age: response.age,
+            weight: response.weight,
+            story: response.story,
+            image: response.image,
+            createdAt: response.createdAt,
+            updatedAt: response.updatedAt,
+            movies: moviesMap
+        };
+
+        return character;
     } catch (error) {
         throw error;
     }
@@ -339,7 +415,22 @@ const addMovie = async (character_id, movie_id) => {
             throw error;
         }
 
-        // Si ambos existen, insertar el nuevo movie_character en la tabla
+        // Verificar si ya existe asociacion
+        const asocc = await Movie_Character.findOne({
+            where: {
+                movie_id: movie_id,
+                character_id: character_id
+            }
+        });
+
+        // Si existe relacion, devuelve error
+        if (asocc != null) {
+            const error = new Error(`La película/serie ${movie_id} ya está asociada al personaje ${character_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay asocc y ambos existen, insertar el nuevo movie_character en la tabla
         const response = await Movie_Character.create({ movie_id, character_id });
 
         return response;
@@ -386,7 +477,7 @@ const deleteOneMovie = async (character_id, movie_id) => {
         }
 
         // Si existe dicha entrada, eliminarla
-        const response = await Movie_Character.destroy({ 
+        const response = await Movie_Character.destroy({
             where: {
                 id: movieCharacter.id
             }
@@ -401,15 +492,15 @@ const deleteOneMovie = async (character_id, movie_id) => {
 
 const deleteAllMovies = async (character_id) => {
     try {
-         // Verificar si existe character
-         const character = await Character.findByPk(character_id);
+        // Verificar si existe character
+        const character = await Character.findByPk(character_id);
 
-         // Si NO existe dicho character, devuelve error
-         if (character == null) {
-             const error = new Error(`No existe el personaje: ${character_id}`);
-             error.status = 404;
-             throw error;
-         }
+        // Si NO existe dicho character, devuelve error
+        if (character == null) {
+            const error = new Error(`No existe el personaje: ${character_id}`);
+            error.status = 404;
+            throw error;
+        }
 
         // Buscar movies relacionados con character_id
         const movies = await Movie_Character.findAll({
@@ -426,15 +517,15 @@ const deleteAllMovies = async (character_id) => {
         }
 
         // Si hay movies relacionados, eliminar dichas relaciones
-        const response = await Movie_Character.destroy({ 
+        const response = await Movie_Character.destroy({
             where: {
                 character_id: character_id
             }
-         });
+        });
 
-         // Retorna cantidad de personajes asociados eliminados
+        // Retorna cantidad de personajes asociados eliminados
         return response;
-        
+
     } catch (error) {
         throw error;
     }

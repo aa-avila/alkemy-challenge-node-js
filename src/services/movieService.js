@@ -2,6 +2,7 @@
 
 const Movie = require('../models/movieModel');
 const Character = require('../models/characterModel');
+const Genre = require('../models/genreModel');
 const Movie_Character = require('../models/movie_character');
 const { Op } = require("sequelize");
 
@@ -224,7 +225,18 @@ const create = async (data) => {
             throw error;
         }
 
-        // Si no existe previamente, insertar el nuevo movie en la tabla
+        // si hay genre_id, verificar que existe. Si no existe devuelve error.
+        if (genre_id) {
+            const genre = await Genre.findByPk(genre_id);
+
+            if (genre == null) {
+                const error = new Error(`No existe el genero: ${genre_id}`);
+                error.status = 404;
+                throw error;
+            }
+        }
+
+        // Si no existe el nombre de movie previamente, insertar el nuevo movie en la tabla
         const response = await Movie.create({ title: title, rating: rating, releaseDate: releaseDate, image: image, genre_id });
 
         return response;
@@ -237,7 +249,6 @@ const update = async (id, data) => {
     try {
         const { title, rating, releaseDate, image, genre_id } = data;
 
-
         // Verificar si existe antes de hacer el update
         // si no existe, arroja error:
         const movieToUpdate = await Movie.findByPk(id);
@@ -248,7 +259,18 @@ const update = async (id, data) => {
             throw error;
         }
 
-        // Actualiza BD
+        // si hay genre_id, verificar que existe. Si no existe devuelve error.
+        if (genre_id) {
+            const genre = await Genre.findByPk(genre_id);
+
+            if (genre == null) {
+                const error = new Error(`No existe el genero: ${genre_id}`);
+                error.status = 404;
+                throw error;
+            }
+        }
+
+        // Si todo ok actualiza BD
         await Movie.update({ title: title, rating: rating, releaseDate: releaseDate, image: image, genre_id: genre_id }, {
             where: {
                 id: id
@@ -393,9 +415,24 @@ const addCharacter = async (movie_id, character_id) => {
             throw error;
         }
 
-        // Si ambos existen, insertar el nuevo movie_character en la tabla
-        const response = await Movie_Character.create({ movie_id, character_id });
+        // Verificar si ya existe asociacion
+        const asocc = await Movie_Character.findOne({
+            where: {
+                movie_id: movie_id,
+                character_id: character_id
+            }
+        });
 
+        // Si existe relacion, devuelve error
+        if (asocc != null) {
+            const error = new Error(`El personaje ${character_id} ya está asociado a la película/serie ${movie_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay asocc y ambos existen, insertar el nuevo movie_character en la tabla
+        const response = await Movie_Character.create({ movie_id, character_id });
+        
         return response;
     } catch (error) {
         throw error;

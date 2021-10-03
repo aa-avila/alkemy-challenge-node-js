@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET;
 
 // Comprobar autenticacion
 const isAuth = async (req, res, next) => {
@@ -17,7 +18,7 @@ const isAuth = async (req, res, next) => {
         token = token.replace('Bearer ', '');
 
         // "decodificamos" el token con nuestra palabra secreta
-        jwt.verify(token, 'Secret', (err, user) => {
+        jwt.verify(token, jwtSecret, (err, user) => {
             if (err) {
                 const error = new Error("Token invalido.");
                 error.status = 401;

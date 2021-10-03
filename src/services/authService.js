@@ -1,12 +1,10 @@
-/** AUTH */
-//
-// POST /auth/login => recibe user (email) + password || devuelve token o msj error
-// POST /auth/register => recibe user (email) + password || devuelve token o msj error || Envia email en caso de registro exitoso
+/** AUTH SERVICE*/
 
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET;
 const bcrypt = require('bcrypt');
-const sendEmail = require('./sendgridRegEmail');
+const sendEmail = require('../sendGrid/sendRegEmail');
 
 const login = async (email, password) => {
     try {
@@ -48,7 +46,7 @@ const login = async (email, password) => {
             user_id: user.id
         };
 
-        const token = jwt.sign(tokenData, 'Secret', {
+        const token = jwt.sign(tokenData, jwtSecret, {
             expiresIn: 60 * 60 * 24 // expira en 24 hs
         });
 
@@ -94,7 +92,7 @@ const register = async (email, password) => {
             user_id: newUser.id
         };
 
-        const token = jwt.sign(tokenData, 'Secret', {
+        const token = jwt.sign(tokenData, jwtSecret, {
             expiresIn: 60 * 60 * 24 // expira en 24 hs
         });
 

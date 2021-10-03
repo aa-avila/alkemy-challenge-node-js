@@ -18,6 +18,9 @@ module.exports = {
             '200': {
                 description: "Personaje creado correctamente."
             },
+            '400': {
+                description: 'Error en la petición.'
+            },
             '401': {
                 description: 'Error de autenticación.'
             },

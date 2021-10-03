@@ -18,8 +18,17 @@ module.exports = {
             '200': {
                 description: "Película/serie creada correctamente."
             },
+            '400': {
+                description: 'Error en la petición.'
+            },
             '401': {
                 description: 'Error de autenticación.'
+            },
+            '400': {
+                description: 'Error en los datos enviados.'
+            },
+            '404': {
+                description: 'El género indicado no existe.'
             },
             '409': {
                 description: 'Ya existe película/serie con el mismo nombre.'

@@ -51,12 +51,12 @@ module.exports = {
                     age: {
                         type: 'integer',
                         description: "Edad del personaje.",
-                        example: "46"
+                        example: 46
                     },
                     weight: {
                         type: 'integer',
                         description: "Peso del personaje.",
-                        example: "55"
+                        example: 55
                     },
                     story: {
                         type: 'string',
@@ -86,7 +86,12 @@ module.exports = {
                     rating: {
                         type: 'integer',
                         description: "Calificación (1-5).",
-                        example: "4"
+                        example: 4
+                    },
+                    genre_id: {
+                        type: 'integer',
+                        description: "ID del género.",
+                        example: 1
                     },
                     image: {
                         type: 'string',

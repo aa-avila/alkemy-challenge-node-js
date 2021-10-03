@@ -36,11 +36,17 @@ module.exports = {
             '200': {
                 description: "Personaje agregado correctamente."
             },
+            '400': {
+                description: 'Error en la petición.'
+            },
             '401': {
                 description: 'Error de autenticación.'
             },
             '404': {
                 description: 'No se encuentra el personaje o la película/serie solicitados.'
+            },
+            '409': {
+                description: 'El personaje ya está asociado a la película/serie.'
             },
             '500': {
                 description: 'Error del servidor.'

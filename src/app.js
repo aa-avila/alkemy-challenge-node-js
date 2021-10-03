@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+require('dotenv').config();
+const swaggerDoc = require('./docs');
 
 const authRoutes = require('./routes/authRoutes');
 const genreRoutes = require('./routes/genreRoutes');
 const characterRoutes = require('./routes/characterRoutes');
 const movieRoutes = require('./routes/movieRoutes');
-
-const swaggerDoc = require('./docs');
 
 
 /*********************/
@@ -15,7 +15,8 @@ const swaggerDoc = require('./docs');
 const app = express();
 
 // SET PORT
-const PORT = process.env.PORT || 3000;
+const customPort = process.env.CUSTOM_PORT;
+const PORT = process.env.PORT || customPort;
 app.set('port', PORT);
 
 /*********************/
@@ -36,6 +37,7 @@ app.use('/', genreRoutes);
 app.use('/', characterRoutes);
 app.use('/', movieRoutes);
 
+// Swagger api-docs
 swaggerDoc(app);
 
 /*********************/
