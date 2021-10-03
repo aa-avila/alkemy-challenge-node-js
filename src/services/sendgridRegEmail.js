@@ -1,7 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY); //TODO: resolver error process.env
-sgMail.setApiKey('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');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 const sendEmail = async (email, user_id, password) => {
