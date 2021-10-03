@@ -410,7 +410,7 @@ const deleteOneCharacter = async (movie_id, character_id) => {
         // Si NO existe dicho movie, devuelve error
         if (movie == null) {
             const error = new Error(`No existe la Pelicula o Serie: ${movie_id}.`);
-            error.status = 409;
+            error.status = 404;
             throw error;
         }
 
@@ -420,7 +420,7 @@ const deleteOneCharacter = async (movie_id, character_id) => {
         // Si NO existe dicho character, devuelve error
         if (character == null) {
             const error = new Error(`No existe Personaje: ${character_id}.`);
-            error.status = 409;
+            error.status = 404;
             throw error;
         }
 
@@ -461,7 +461,7 @@ const deleteAllCharacters = async (movie_id) => {
         // Si NO existe dicho movie, devuelve error
         if (movie == null) {
             const error = new Error(`No existe la Pelicula o Serie: ${movie_id}`);
-            error.status = 409;
+            error.status = 404;
             throw error;
         }
 
