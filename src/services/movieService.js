@@ -432,7 +432,7 @@ const addCharacter = async (movie_id, character_id) => {
 
         // Si no hay asocc y ambos existen, insertar el nuevo movie_character en la tabla
         const response = await Movie_Character.create({ movie_id, character_id });
-
+        
         return response;
     } catch (error) {
         throw error;

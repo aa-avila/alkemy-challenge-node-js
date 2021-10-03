@@ -89,7 +89,7 @@ const deleteAll = async (req, res, next) => {
 
 const addCharacter = async (req, res, next) => {
     try {
-        const { movie_id } = req.params;
+        const  movie_id  = parseInt(req.params.movie_id, 10);
         const { character_id } = req.body;
 
         const response = await MovieSvc.addCharacter(movie_id, character_id);
