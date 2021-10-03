@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 require('dotenv').config();
 const swaggerDoc = require('./docs');
 
@@ -29,7 +30,7 @@ app.use(express.json());
 /*********************/
 // ROUTES
 app.get('/', (req, res) => {
-    res.send('Hola!');
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 app.use('/', authRoutes);
