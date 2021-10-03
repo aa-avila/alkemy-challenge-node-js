@@ -24,7 +24,7 @@ module.exports = {
         ...addCharacter,
         ...deleteAllCharacters
     },
-    '/movies/:movie_id/characters/:character_id': {
+    '/movies/{movie_id}/characters/{character_id}': {
         ...deleteOneCharacter
     }
 }

@@ -4,6 +4,9 @@ const deleteAll = require('./deleteAll');
 const getOne = require('./getOne');
 const update = require('./update');
 const deleteOne = require('./deleteOne');
+const addMovie = require('./addMovie');
+const deleteAllMovies = require('./deleteAllMovies');
+const deleteOneMovie = require('./deleteOneMovie');
 
 module.exports = {
     '/characters': {
@@ -16,5 +19,12 @@ module.exports = {
         ...getOne,
         ...update,
         ...deleteOne
+    },
+    '/characters/{character_id}/movies': {
+        ...addMovie,
+        ...deleteAllMovies
+    },
+    '/characters/{character_id}/movies/{movie_id}': {
+        ...deleteOneMovie
     }
 }

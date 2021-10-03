@@ -1,23 +1,23 @@
 module.exports = {
     delete: {
-        tags: ['MOVIES'],
-        summary: "Quitar un personaje de una película/serie.",
-        description: 'Desvincula un personaje de una película/serie mediante sus respectivos IDs. Devuelve un mensaje indicando el id del personaje que se ha quitado y el id de la película/serie afectada. // NOTA: esta operación no elimina el registro original del personaje, sino que borra la asociación entre el personaje y la película/serie objetivo.',
-        operationId: "movie_deleteOneCharacter",
+        tags: ['CHARACTERS'],
+        summary: "Quitar una película/serie de un personaje.",
+        description: 'Desvincula una película/serie de un personaje mediante sus respectivos IDs. Devuelve un mensaje indicando el id de la película/serie que se ha quitado y el id del personaje afectado. // NOTA: esta operación no elimina el registro original de la película/serie, sino que borra la asociación entre la película/serie y el personaje objetivo.',
+        operationId: "character_deleteOneMovie",
         parameters: [
             {
-                name: 'movie_id',
+                name: 'character_id',
                 in: 'path',
-                description: 'ID de la película/serie a modificar.',
+                description: 'ID del personaje a modificar.',
                 schema: {
                     type: 'integer',
                     example: 2
                 }
             },
             {
-                name: 'character_id',
+                name: 'movie_id',
                 in: 'path',
-                description: 'ID del personaje a quitar.',
+                description: 'ID de la película/serie a quitar.',
                 schema: {
                     type: 'integer',
                     example: 3
@@ -26,7 +26,7 @@ module.exports = {
         ],
         responses: {
             '200': {
-                description: 'Personaje quitado correctamente.'
+                description: 'Película/serie quitada correctamente.'
             },
             '401': {
                 description: 'Error de autenticación.'

@@ -2,7 +2,7 @@ module.exports = {
     delete:{
         tags: ['MOVIES'],
         summary: 'Quitar personajes de una película/serie.',
-        description: "Desvincular todos los personajes asociados a una determinada película/serie. Devuelve un mensaje indicando la cantidad de elementos eliminados y el id de la película/serie afectada.",
+        description: "Desvincular todos los personajes asociados a una determinada película/serie. Devuelve un mensaje indicando la cantidad de elementos eliminados y el id de la película/serie afectada. // NOTA: esta operación no elimina los registros originales de los personajes, sino que borra las asociaciones entre los personajes y la película/serie objetivo.",
         operationId: "movie_deleteAllCharacters",
         parameters:[
             {
@@ -18,7 +18,7 @@ module.exports = {
         ],
         responses:{
             '200': {
-                description: 'Se eliminaron todos las películas y series.'
+                description: 'Se quitaron todos los personajes asociados a la película/serie.'
             },
             '401': {
                 description: 'Error de autenticación.'
