@@ -15,6 +15,10 @@ module.exports = {
     },
     servers: [
         {
+            url: 'https://alkemy-disney-world-api.herokuapp.com/',
+            description: 'Heroku Server'
+        },
+        {
             url: `http://localhost:${PORT}`,
             description: 'Local development server'
         }
