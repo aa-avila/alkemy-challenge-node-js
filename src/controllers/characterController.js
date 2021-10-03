@@ -76,10 +76,10 @@ const update = async (req, res, next) => {
 const deleteOne = async (req, res, next) => {
     try {
         const id = req.params.id;
-        
+
         const response = await CharacterSvc.deleteOne(id);
 
-        res.send({ "Message": `El personaje ${id} se elimino correctamente.`});
+        res.send({ "Message": `El personaje ${id} se elimino correctamente.` });
     } catch (error) {
         next(error);
     }
@@ -89,7 +89,7 @@ const deleteAll = async (req, res, next) => {
     try {
         const response = await CharacterSvc.deleteAll();
 
-        res.send({ "Message": `Se eliminaron ${response} personajes en total.`});
+        res.send({ "Message": `Se eliminaron ${response} personajes en total.` });
     } catch (error) {
         next(error);
     }
@@ -99,7 +99,7 @@ const deleteAll = async (req, res, next) => {
 
 const addMovie = async (req, res, next) => {
     try {
-        const { character_id } = req.params;
+        const character_id = parseInt(req.params.character_id, 10);
         const { movie_id } = req.body;
 
         const response = await CharacterSvc.addMovie(character_id, movie_id);
@@ -116,7 +116,7 @@ const deleteOneMovie = async (req, res, next) => {
 
         const response = await CharacterSvc.deleteOneMovie(character_id, movie_id);
 
-        res.send({'Message': `Se ha eliminado la Pelicula o Serie ${movie_id} del personaje ${character_id}.`});
+        res.send({ 'Message': `Se ha eliminado la Pelicula o Serie ${movie_id} del personaje ${character_id}.` });
     } catch (error) {
         next(error);
     }
@@ -128,7 +128,7 @@ const deleteAllMovies = async (req, res, next) => {
 
         const response = await CharacterSvc.deleteAllMovies(character_id);
 
-        res.send({'Message': `Se han eliminado ${response} Peliculas y/o Series del personaje ${character_id}.`});
+        res.send({ 'Message': `Se han eliminado ${response} Peliculas y/o Series del personaje ${character_id}.` });
     } catch (error) {
         next(error);
     }
