@@ -415,7 +415,22 @@ const addCharacter = async (movie_id, character_id) => {
             throw error;
         }
 
-        // Si ambos existen, insertar el nuevo movie_character en la tabla
+        // Verificar si ya existe asociacion
+        const asocc = await Movie_Character.findOne({
+            where: {
+                movie_id: movie_id,
+                character_id: character_id
+            }
+        });
+
+        // Si existe relacion, devuelve error
+        if (asocc != null) {
+            const error = new Error(`El personaje ${character_id} ya está asociado a la película/serie ${movie_id}`);
+            error.status = 409;
+            throw error;
+        }
+
+        // Si no hay asocc y ambos existen, insertar el nuevo movie_character en la tabla
         const response = await Movie_Character.create({ movie_id, character_id });
 
         return response;

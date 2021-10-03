@@ -42,6 +42,9 @@ module.exports = {
             '404': {
                 description: 'No se encuentra el personaje o la película/serie solicitados.'
             },
+            '409': {
+                description: 'El personaje ya está asociado a la película/serie.'
+            },
             '500': {
                 description: 'Error del servidor.'
             }
