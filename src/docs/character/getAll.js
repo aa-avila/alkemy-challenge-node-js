@@ -46,6 +46,9 @@ module.exports = {
             '200': {
                 description: 'Todos los personajes que coinciden con los parámetros de la petición.'
             },
+            '400': {
+                description: 'Error en los parámetros de la petición.'
+            },
             '401': {
                 description: 'Error de autenticación.'
             },
