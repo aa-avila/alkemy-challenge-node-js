@@ -2,13 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 require('dotenv').config();
+const swaggerDoc = require('./docs');
 
 const authRoutes = require('./routes/authRoutes');
 const genreRoutes = require('./routes/genreRoutes');
 const characterRoutes = require('./routes/characterRoutes');
 const movieRoutes = require('./routes/movieRoutes');
-
-const swaggerDoc = require('./docs');
 
 
 /*********************/
@@ -37,6 +36,7 @@ app.use('/', genreRoutes);
 app.use('/', characterRoutes);
 app.use('/', movieRoutes);
 
+// Swagger api-docs
 swaggerDoc(app);
 
 /*********************/
